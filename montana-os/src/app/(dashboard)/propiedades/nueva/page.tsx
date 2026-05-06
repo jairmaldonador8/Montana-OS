@@ -1,4 +1,25 @@
-export default function NuevaPropiedadPage() {
+import { createClient } from '@/lib/supabase/server';
+import { FormProvider } from '@/context/formContext';
+import { FormContainer } from '@/components/propiedades/FormContainer';
+import { nanoid } from 'nanoid';
+
+export default async function NuevaPropiedadPage() {
+  // Initialize Supabase client
+  const supabase = await createClient();
+
+  // Get authenticated user
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Check if user is authenticated
+  if (!user) {
+    return <div>No autorizado</div>;
+  }
+
+  // Generate unique property ID
+  const propertyId = nanoid();
+
   return (
     <div className="space-y-8 max-w-3xl">
       <div>
@@ -11,13 +32,9 @@ export default function NuevaPropiedadPage() {
         </p>
       </div>
 
-      <div className="border border-border rounded-md p-12 text-center">
-        <p className="font-editorial text-2xl mb-3">Formulario en construcción</p>
-        <p className="text-sm text-muted-foreground max-w-md mx-auto">
-          Aquí va el formulario multi-step de captura de propiedad.
-          Construir con Claude Code siguiendo el documento de MVP.
-        </p>
-      </div>
+      <FormProvider propertyId={propertyId}>
+        <FormContainer propertyId={propertyId} />
+      </FormProvider>
     </div>
   );
 }
