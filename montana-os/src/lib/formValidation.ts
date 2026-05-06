@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // ============ STEP 1: DATOS BÁSICOS ============
-export const step1Schema = z.object({
+let step1Schema = z.object({
   type: z.enum([
     'casa',
     'departamento',
@@ -22,6 +22,19 @@ export const step1Schema = z.object({
   currency: z.enum(['MXN', 'USD']).default('MXN'),
 });
 
+// Add cross-field validation for rentalPrice requirement
+step1Schema = step1Schema.superRefine(({ operation, rentalPrice }, ctx) => {
+  if ((operation === 'renta' || operation === 'venta_o_renta') && !rentalPrice) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['rentalPrice'],
+      message: 'Precio de renta es requerido para esta operación',
+    });
+  }
+});
+
+export { step1Schema };
+
 export type Step1Input = z.infer<typeof step1Schema>;
 
 // ============ STEP 2: UBICACIÓN ============
@@ -34,8 +47,8 @@ export const step2Schema = z.object({
     .min(5, 'La dirección debe tener al menos 5 caracteres'),
   gps: z
     .object({
-      lat: z.number(),
-      lng: z.number(),
+      lat: z.number().min(-90, 'La latitud debe estar entre -90 y 90').max(90, 'La latitud debe estar entre -90 y 90'),
+      lng: z.number().min(-180, 'La longitud debe estar entre -180 y 180').max(180, 'La longitud debe estar entre -180 y 180'),
     })
     .optional(),
   references: z.string().optional(),
@@ -44,7 +57,7 @@ export const step2Schema = z.object({
 export type Step2Input = z.infer<typeof step2Schema>;
 
 // ============ STEP 3: CARACTERÍSTICAS ============
-export const step3Schema = z.object({
+let step3Schema = z.object({
   bedrooms: z
     .number()
     .nonnegative(
@@ -63,6 +76,19 @@ export const step3Schema = z.object({
   floorLevel: z.number().optional(),
   amenities: z.array(z.string()).default([]),
 });
+
+// Add cross-field validation for m2Land >= m2Built
+step3Schema = step3Schema.superRefine(({ m2Land, m2Built }, ctx) => {
+  if (m2Land !== undefined && m2Land < m2Built) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['m2Land'],
+      message: 'El m² de terreno no puede ser menor que el m² construido',
+    });
+  }
+});
+
+export { step3Schema };
 
 export type Step3Input = z.infer<typeof step3Schema>;
 

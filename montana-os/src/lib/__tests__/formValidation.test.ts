@@ -57,16 +57,31 @@ describe('Form Validation Schemas', () => {
 
     describe('operation field', () => {
       it('should accept valid operations', () => {
-        const validOps = ['venta', 'renta', 'venta_o_renta'];
-
-        validOps.forEach((op) => {
-          const result = step1Schema.safeParse({
-            type: 'casa',
-            operation: op,
-            price: 1000000,
-          });
-          expect(result.success).toBe(true);
+        // Test 'venta' operation (no rentalPrice required)
+        const ventaResult = step1Schema.safeParse({
+          type: 'casa',
+          operation: 'venta',
+          price: 1000000,
         });
+        expect(ventaResult.success).toBe(true);
+
+        // Test 'renta' operation (rentalPrice required)
+        const rentaResult = step1Schema.safeParse({
+          type: 'casa',
+          operation: 'renta',
+          price: 1000000,
+          rentalPrice: 5000,
+        });
+        expect(rentaResult.success).toBe(true);
+
+        // Test 'venta_o_renta' operation (rentalPrice required)
+        const ventaORentaResult = step1Schema.safeParse({
+          type: 'casa',
+          operation: 'venta_o_renta',
+          price: 1000000,
+          rentalPrice: 5000,
+        });
+        expect(ventaORentaResult.success).toBe(true);
       });
 
       it('should reject invalid operations', () => {
@@ -154,7 +169,7 @@ describe('Form Validation Schemas', () => {
         expect(result.success).toBe(true);
       });
 
-      it('should be optional', () => {
+      it('should be optional for venta operation', () => {
         const result = step1Schema.safeParse({
           type: 'casa',
           operation: 'venta',
@@ -181,6 +196,47 @@ describe('Form Validation Schemas', () => {
           rentalPrice: 0,
         });
         expect(result.success).toBe(false);
+      });
+    });
+
+    describe('Cross-field validation: rentalPrice requirement', () => {
+      it('should require rentalPrice when operation is renta', () => {
+        const result = step1Schema.safeParse({
+          type: 'casa',
+          operation: 'renta',
+          price: 1000000,
+        });
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          const rentalPriceError = result.error.errors.find(
+            (err) => err.path[0] === 'rentalPrice'
+          );
+          expect(rentalPriceError).toBeDefined();
+        }
+      });
+
+      it('should require rentalPrice when operation is venta_o_renta', () => {
+        const result = step1Schema.safeParse({
+          type: 'casa',
+          operation: 'venta_o_renta',
+          price: 1000000,
+        });
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          const rentalPriceError = result.error.errors.find(
+            (err) => err.path[0] === 'rentalPrice'
+          );
+          expect(rentalPriceError).toBeDefined();
+        }
+      });
+
+      it('should not require rentalPrice when operation is venta', () => {
+        const result = step1Schema.safeParse({
+          type: 'casa',
+          operation: 'venta',
+          price: 1000000,
+        });
+        expect(result.success).toBe(true);
       });
     });
 
@@ -363,6 +419,102 @@ describe('Form Validation Schemas', () => {
           },
         });
         expect(result.success).toBe(true);
+      });
+
+      it('should accept valid latitude bounds (-90 to 90)', () => {
+        // Test minimum latitude
+        const minLatResult = step2Schema.safeParse({
+          neighborhood: 'Roma',
+          address: 'Calle Principal 123',
+          gps: {
+            lat: -90,
+            lng: 0,
+          },
+        });
+        expect(minLatResult.success).toBe(true);
+
+        // Test maximum latitude
+        const maxLatResult = step2Schema.safeParse({
+          neighborhood: 'Roma',
+          address: 'Calle Principal 123',
+          gps: {
+            lat: 90,
+            lng: 0,
+          },
+        });
+        expect(maxLatResult.success).toBe(true);
+      });
+
+      it('should reject latitude below -90', () => {
+        const result = step2Schema.safeParse({
+          neighborhood: 'Roma',
+          address: 'Calle Principal 123',
+          gps: {
+            lat: -91,
+            lng: 0,
+          },
+        });
+        expect(result.success).toBe(false);
+      });
+
+      it('should reject latitude above 90', () => {
+        const result = step2Schema.safeParse({
+          neighborhood: 'Roma',
+          address: 'Calle Principal 123',
+          gps: {
+            lat: 91,
+            lng: 0,
+          },
+        });
+        expect(result.success).toBe(false);
+      });
+
+      it('should accept valid longitude bounds (-180 to 180)', () => {
+        // Test minimum longitude
+        const minLngResult = step2Schema.safeParse({
+          neighborhood: 'Roma',
+          address: 'Calle Principal 123',
+          gps: {
+            lat: 0,
+            lng: -180,
+          },
+        });
+        expect(minLngResult.success).toBe(true);
+
+        // Test maximum longitude
+        const maxLngResult = step2Schema.safeParse({
+          neighborhood: 'Roma',
+          address: 'Calle Principal 123',
+          gps: {
+            lat: 0,
+            lng: 180,
+          },
+        });
+        expect(maxLngResult.success).toBe(true);
+      });
+
+      it('should reject longitude below -180', () => {
+        const result = step2Schema.safeParse({
+          neighborhood: 'Roma',
+          address: 'Calle Principal 123',
+          gps: {
+            lat: 0,
+            lng: -181,
+          },
+        });
+        expect(result.success).toBe(false);
+      });
+
+      it('should reject longitude above 180', () => {
+        const result = step2Schema.safeParse({
+          neighborhood: 'Roma',
+          address: 'Calle Principal 123',
+          gps: {
+            lat: 0,
+            lng: 181,
+          },
+        });
+        expect(result.success).toBe(false);
       });
     });
 
@@ -579,6 +731,56 @@ describe('Form Validation Schemas', () => {
           m2Land: -100,
         });
         expect(result.success).toBe(false);
+      });
+    });
+
+    describe('Cross-field validation: m2Land >= m2Built', () => {
+      it('should accept m2Land equal to m2Built', () => {
+        const result = step3Schema.safeParse({
+          bedrooms: 2,
+          bathrooms: 1,
+          m2Built: 120,
+          m2Land: 120,
+        });
+        expect(result.success).toBe(true);
+      });
+
+      it('should accept m2Land greater than m2Built', () => {
+        const result = step3Schema.safeParse({
+          bedrooms: 2,
+          bathrooms: 1,
+          m2Built: 120,
+          m2Land: 300,
+        });
+        expect(result.success).toBe(true);
+      });
+
+      it('should reject m2Land less than m2Built', () => {
+        const result = step3Schema.safeParse({
+          bedrooms: 2,
+          bathrooms: 1,
+          m2Built: 120,
+          m2Land: 100,
+        });
+        expect(result.success).toBe(false);
+        if (!result.success) {
+          const m2LandError = result.error.errors.find(
+            (err) => err.path[0] === 'm2Land'
+          );
+          expect(m2LandError).toBeDefined();
+          expect(m2LandError?.message).toContain(
+            'El m² de terreno no puede ser menor que el m² construido'
+          );
+        }
+      });
+
+      it('should not require m2Land when not provided', () => {
+        const result = step3Schema.safeParse({
+          bedrooms: 2,
+          bathrooms: 1,
+          m2Built: 120,
+        });
+        expect(result.success).toBe(true);
       });
     });
 
