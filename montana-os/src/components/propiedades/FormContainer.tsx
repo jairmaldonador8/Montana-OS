@@ -106,37 +106,31 @@ export function FormContainer({ propertyId }: FormContainerProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      {/* Container */}
-      <div className="max-w-3xl mx-auto">
-        {/* Progress Bar Section */}
-        <div className="mb-8">
-          {/* Visual Progress Bar */}
-          <div className="flex gap-2 mb-4">
-            {[1, 2, 3, 4].map((step) => (
-              <div
-                key={step}
-                className={`flex-1 h-2 rounded-full transition-colors duration-300 ${
-                  step <= currentStep ? 'bg-montana-gold' : 'bg-gray-200'
-                }`}
-              />
-            ))}
-          </div>
-
-          {/* Progress Text */}
-          <p className="text-center text-sm font-medium text-gray-600">
-            Paso {currentStep} de 4
-          </p>
+    <div className="space-y-6">
+      {/* Progress Bar */}
+      <div className="space-y-2">
+        <div className="flex gap-2">
+          {[1, 2, 3, 4].map((step) => (
+            <div
+              key={step}
+              className={`flex-1 h-1.5 rounded-full transition-colors duration-300 ${
+                step <= currentStep ? 'bg-montana-gold' : 'bg-gray-200'
+              }`}
+            />
+          ))}
         </div>
-
-        {/* Form Card */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-          {renderStep()}
-        </div>
-
-        {/* Autosave Indicator */}
-        <AutosaveIndicator status={saveStatus} />
+        <p className="text-xs text-muted-foreground">
+          Paso {currentStep} de 4
+        </p>
       </div>
+
+      {/* Form Card */}
+      <div className="bg-white border border-gray-200 rounded-lg p-8">
+        {renderStep()}
+      </div>
+
+      {/* Autosave Indicator */}
+      <AutosaveIndicator status={saveStatus} />
     </div>
   );
 }

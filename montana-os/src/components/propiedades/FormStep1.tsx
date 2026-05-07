@@ -11,7 +11,6 @@ export function FormStep1() {
   const formContext = useForm();
   const stepData = formContext.getStepData(1);
 
-  // Initialize react-hook-form with validation
   const {
     control,
     handleSubmit,
@@ -30,10 +29,9 @@ export function FormStep1() {
     },
   });
 
-  // Watch the operation field to conditionally show rentalPrice
   const operation = watch('operation');
+  const type = watch('type');
 
-  // Reset form when stepData changes (on mount or when returning to this step)
   useEffect(() => {
     reset({
       type: stepData?.type || '',
@@ -44,39 +42,38 @@ export function FormStep1() {
     });
   }, [stepData, reset]);
 
-  // Handle form submission
   const onSubmit = (data: Step1Input) => {
-    // Update form context with step 1 data
     formContext.updateStep(1, data);
-    // Navigate to step 2
     formContext.goToStep(2);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Tipo de propiedad */}
-      <div className="space-y-2">
-        <label htmlFor="type" className="block text-sm font-medium text-gray-900">
+      <div className="space-y-3">
+        <label className="block text-sm font-medium text-gray-900">
           Tipo de propiedad <span className="text-red-500">*</span>
         </label>
         <Controller
           name="type"
           control={control}
           render={({ field }) => (
-            <select
-              {...field}
-              id="type"
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-montana-gold ${
-                errors.type ? 'border-red-500' : 'border-gray-300'
-              }`}
-            >
-              <option value="">Selecciona un tipo de propiedad</option>
-              {PROPERTY_TYPES.map((type) => (
-                <option key={type.id} value={type.id}>
-                  {type.label}
-                </option>
+            <div className="grid grid-cols-2 gap-3 max-h-48 overflow-y-auto">
+              {PROPERTY_TYPES.map((propertyType) => (
+                <button
+                  key={propertyType.id}
+                  type="button"
+                  onClick={() => field.onChange(propertyType.id)}
+                  className={`p-3 border-2 rounded-lg text-sm font-medium transition-all ${
+                    field.value === propertyType.id
+                      ? 'border-montana-gold bg-montana-gold/10 text-gray-900'
+                      : 'border-gray-300 bg-white text-gray-700 hover:border-montana-gold'
+                  }`}
+                >
+                  {propertyType.label}
+                </button>
               ))}
-            </select>
+            </div>
           )}
         />
         {errors.type && (
@@ -89,39 +86,39 @@ export function FormStep1() {
         <label className="block text-sm font-medium text-gray-900">
           Operación <span className="text-red-500">*</span>
         </label>
-        <div className="space-y-2">
-          {OPERATIONS.map((op) => (
-            <Controller
-              key={op.id}
-              name="operation"
-              control={control}
-              render={({ field }) => (
-                <label className="flex items-center cursor-pointer">
-                  <input
-                    type="radio"
-                    {...field}
-                    value={op.id}
-                    checked={field.value === op.id}
-                    className="mr-3 h-4 w-4 text-montana-gold focus:ring-montana-gold cursor-pointer"
-                  />
-                  <span className="text-sm text-gray-700">{op.label}</span>
-                </label>
-              )}
-            />
-          ))}
-        </div>
+        <Controller
+          name="operation"
+          control={control}
+          render={({ field }) => (
+            <div className="grid grid-cols-1 gap-2">
+              {OPERATIONS.map((op) => (
+                <button
+                  key={op.id}
+                  type="button"
+                  onClick={() => field.onChange(op.id)}
+                  className={`p-3 border-2 rounded-lg text-sm font-medium text-left transition-all ${
+                    field.value === op.id
+                      ? 'border-montana-gold bg-montana-gold/10 text-gray-900'
+                      : 'border-gray-300 bg-white text-gray-700 hover:border-montana-gold'
+                  }`}
+                >
+                  {op.label}
+                </button>
+              ))}
+            </div>
+          )}
+        />
         {errors.operation && (
           <p className="text-sm text-red-500">{errors.operation.message}</p>
         )}
       </div>
 
-      {/* Price fields in responsive grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Precio */}
-        <div className="space-y-2">
-          <label htmlFor="price" className="block text-sm font-medium text-gray-900">
-            Precio <span className="text-red-500">*</span>
-          </label>
+      {/* Precio */}
+      <div className="space-y-2">
+        <label htmlFor="price" className="block text-sm font-medium text-gray-900">
+          Precio <span className="text-red-500">*</span>
+        </label>
+        <div className="flex gap-2">
           <Controller
             name="price"
             control={control}
@@ -131,77 +128,75 @@ export function FormStep1() {
                 id="price"
                 type="number"
                 placeholder="0.00"
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-montana-gold ${
+                className={`flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-montana-gold ${
                   errors.price ? 'border-red-500' : 'border-gray-300'
                 }`}
                 onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : '')}
               />
             )}
           />
-          {errors.price && (
-            <p className="text-sm text-red-500">{errors.price.message}</p>
+
+          {/* Moneda */}
+          <Controller
+            name="currency"
+            control={control}
+            render={({ field }) => (
+              <div className="flex gap-2">
+                {['MXN', 'USD'].map((curr) => (
+                  <button
+                    key={curr}
+                    type="button"
+                    onClick={() => field.onChange(curr)}
+                    className={`px-4 py-2 border-2 rounded-md font-medium transition-all min-w-20 ${
+                      field.value === curr
+                        ? 'border-montana-gold bg-montana-gold/10 text-gray-900'
+                        : 'border-gray-300 bg-white text-gray-700 hover:border-montana-gold'
+                    }`}
+                  >
+                    {curr}
+                  </button>
+                ))}
+              </div>
+            )}
+          />
+        </div>
+        {errors.price && (
+          <p className="text-sm text-red-500">{errors.price.message}</p>
+        )}
+      </div>
+
+      {/* Precio de renta - Conditional */}
+      {(operation === 'renta' || operation === 'venta_o_renta') && (
+        <div className="space-y-2">
+          <label htmlFor="rentalPrice" className="block text-sm font-medium text-gray-900">
+            Precio de renta mensual <span className="text-red-500">*</span>
+          </label>
+          <Controller
+            name="rentalPrice"
+            control={control}
+            render={({ field }) => (
+              <input
+                {...field}
+                id="rentalPrice"
+                type="number"
+                placeholder="0.00"
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-montana-gold ${
+                  errors.rentalPrice ? 'border-red-500' : 'border-gray-300'
+                }`}
+                onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : '')}
+              />
+            )}
+          />
+          {errors.rentalPrice && (
+            <p className="text-sm text-red-500">{errors.rentalPrice.message}</p>
           )}
         </div>
-
-        {/* Precio de renta - Conditional */}
-        {(operation === 'renta' || operation === 'venta_o_renta') && (
-          <div className="space-y-2">
-            <label htmlFor="rentalPrice" className="block text-sm font-medium text-gray-900">
-              Precio de renta <span className="text-red-500">*</span>
-            </label>
-            <Controller
-              name="rentalPrice"
-              control={control}
-              render={({ field }) => (
-                <input
-                  {...field}
-                  id="rentalPrice"
-                  type="number"
-                  placeholder="0.00"
-                  className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-montana-gold ${
-                    errors.rentalPrice ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : '')}
-                />
-              )}
-            />
-            {errors.rentalPrice && (
-              <p className="text-sm text-red-500">{errors.rentalPrice.message}</p>
-            )}
-          </div>
-        )}
-      </div>
-
-      {/* Moneda */}
-      <div className="space-y-2">
-        <label htmlFor="currency" className="block text-sm font-medium text-gray-900">
-          Moneda <span className="text-red-500">*</span>
-        </label>
-        <Controller
-          name="currency"
-          control={control}
-          render={({ field }) => (
-            <select
-              {...field}
-              id="currency"
-              className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-montana-gold ${
-                errors.currency ? 'border-red-500' : 'border-gray-300'
-              }`}
-            >
-              <option value="MXN">MXN (Peso Mexicano)</option>
-              <option value="USD">USD (Dólar Estadounidense)</option>
-            </select>
-          )}
-        />
-        {errors.currency && (
-          <p className="text-sm text-red-500">{errors.currency.message}</p>
-        )}
-      </div>
+      )}
 
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full mt-6 bg-montana-gold text-white py-2 px-4 rounded-md font-medium hover:bg-opacity-90 transition-all"
+        className="w-full mt-8 bg-montana-gold text-white py-3 px-4 rounded-md font-medium hover:bg-opacity-90 transition-all"
       >
         Siguiente
       </button>

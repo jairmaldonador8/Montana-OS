@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Montana OS - Sistema de Roles</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: #333; margin-bottom: 30px; text-align: center; font-size: 28px; }
+        h2 { color: #555; margin: 30px 0 15px 0; font-size: 20px; border-bottom: 2px solid #d4a574; padding-bottom: 10px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px; }
+        .grid.full { grid-template-columns: 1fr; }
+        .card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .diagram {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+        .flow-box {
+            background: #d4a574;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin: 5px 0;
+            font-weight: 500;
+            text-align: center;
+        }
+        .flow-arrow {
+            text-align: center;
+            color: #d4a574;
+            font-weight: bold;
+            margin: 3px 0;
+        }
+        .role-box {
+            background: linear-gradient(135deg, #d4a574 0%, #c49560 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: 500;
+        }
+        .role-box.admin { background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); }
+        .role-box.agent { background: linear-gradient(135deg, #4ecdc4 0%, #44b7ae 100%); }
+        .role-box.admin-staff { background: linear-gradient(135deg, #95e1d3 0%, #7ecfc0 100%); }
+        .list-item {
+            padding: 10px;
+            margin: 8px 0;
+            background: #f5f5f5;
+            border-left: 3px solid #d4a574;
+            border-radius: 3px;
+        }
+        .title-bold { font-weight: 600; color: #333; }
+        .highlight { background: #fffacd; padding: 2px 6px; border-radius: 3px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #f0f0f0;
+            font-weight: 600;
+            color: #333;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-draft { background: #e8e8e8; color: #666; }
+        .status-pending { background: #fff3cd; color: #856404; }
+        .status-approved { background: #d4edda; color: #155724; }
+        .status-published { background: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏢 Montana OS - Sistema de Roles y Autenticación</h1>
+
+        <h2>1️⃣ Estructura de Roles</h2>
+        <div class="grid full">
+            <div class="card">
+                <div class="role-box agent">
+                    👤 Asesor (Agent)
+                    <div style="font-size: 12px; margin-top: 8px; opacity: 0.95;">
+                        Correo: nombre@montana.com
+                    </div>
+                </div>
+                <div class="list-item"><span class="title-bold">Acceso:</span> Dashboard personal del CRM</div>
+                <div class="list-item"><span class="title-bold">Ver:</span> Solo sus propias propiedades</div>
+                <div class="list-item"><span class="title-bold">Hacer:</span> Crear, editar, enviar propiedades para revisión</div>
+                <div class="list-item"><span class="title-bold">No ver:</span> Propiedades de otros asesores</div>
+            </div>
+        </div>
+
+        <div class="grid full">
+            <div class="card">
+                <div class="role-box admin-staff">
+                    👨‍💼 Jefe + Secretaria (Admin Staff)
+                    <div style="font-size: 12px; margin-top: 8px; opacity: 0.95;">
+                        Correo: jefe@montana.com / secretaria@montana.com
+                    </div>
+                </div>
+                <div class="list-item"><span class="title-bold">Acceso:</span> Dashboard de administración</div>
+                <div class="list-item"><span class="title-bold">Ver:</span> TODAS las propiedades de todos los asesores</div>
+                <div class="list-item"><span class="title-bold">Hacer:</span> Revisar, aprobar/rechazar, asignar a broker, cambiar estado</div>
+                <div class="list-item"><span class="title-bold">Filtros:</span> Por asesor, estado, tipo de propiedad</div>
+            </div>
+        </div>
+
+        <h2>2️⃣ Flujo de Autenticación</h2>
+        <div class="card">
+            <div class="diagram">
+┌─────────────────────────────────────────────────────────────┐
+│                    INICIO DE SESIÓN                         │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+                   ✉️ Ingresa: email@montana.com
+                              ↓
+        ┌─────────────────────────────────────┐
+        │  Validar email en tabla USUARIOS    │
+        └─────────────────────────────────────┘
+                              ↓
+        ┌──────────────────────────────────────────┐
+        │  ¿Email está en sistema? + tiene rol?    │
+        └──────────────────────────────────────────┘
+                        ↙           ↘
+                    SÍ              NO
+                    ↓               ↓
+        ┌─────────────────────┐  ❌ Rechazar
+        │  Obtener ROL        │    (Email no existe)
+        └─────────────────────┘
+                    ↓
+        ┌─────────────────────────────────┐
+        │  ¿Rol = agent?                  │
+        └─────────────────────────────────┘
+            ↙                               ↘
+         SÍ                                 NO (admin/jefe/secretaria)
+         ↓                                  ↓
+    🔑 Login                          🔑 Login
+    Redirige a                        Redirige a
+    /propiedades/nueva               /propiedades
+    (CRM Asesor)                      (Admin Dashboard)
+            </div>
+        </div>
+
+        <h2>3️⃣ Dashboard - Vista del Asesor</h2>
+        <div class="card">
+            <div class="list-item"><strong>URL:</strong> /propiedades/nueva</div>
+            <div class="list-item"><strong>Componentes:</strong></div>
+            <div style="margin-left: 20px;">
+                <div class="list-item">📋 Formulario de nueva propiedad (4 pasos)</div>
+                <div class="list-item">📊 Mis propiedades (estado actual)</div>
+                <div class="list-item">⏳ Historial y cambios de estado</div>
+                <div class="list-item">💬 Feedback de revisión (si fue rechazada)</div>
+            </div>
+            <div class="list-item"><strong>Datos que ve:</strong> Solo sus propias propiedades</div>
+            <div class="list-item"><strong>Permisos:</strong> Crear, editar draft, enviar para revisión</div>
+        </div>
+
+        <h2>4️⃣ Dashboard - Vista del Administrador (Jefe/Secretaria)</h2>
+        <div class="card">
+            <div class="list-item"><strong>URL:</strong> /propiedades (cuando es admin)</div>
+            <div class="list-item"><strong>Componentes principales:</strong></div>
+            <div style="margin-left: 20px;">
+                <div class="list-item">🔍 <span class="highlight">Cola de revisión</span> - Todas las propiedades pendientes</div>
+                <div class="list-item">📁 Filtros avanzados (asesor, estado, tipo, fecha)</div>
+                <div class="list-item">✅ Acciones: Aprobar, rechazar (con comentario), asignar broker</div>
+                <div class="list-item">📊 Estadísticas generales (propiedades por asesor, estados)</div>
+            </div>
+        </div>
+
+        <h2>5️⃣ Flujo de Estados de Propiedades</h2>
+        <div class="card">
+            <div class="diagram">
+┌──────────────────────────────────────────────────────────────┐
+│  ASESOR crea propiedad                                       │
+│  Estado inicial: DRAFT (borrador)                            │
+└──────────────────────────────────────────────────────────────┘
+                            ↓
+        ┌───────────────────────────────────┐
+        │ ASESOR: "Enviar para revisión"    │
+        │ Estado → PENDING_REVIEW           │
+        └───────────────────────────────────┘
+                            ↓
+        ┌───────────────────────────────────────────────┐
+        │ ADMIN ve en "Cola de revisión"                │
+        │ Opciones: Aprobar / Rechazar / Asignar broker │
+        └───────────────────────────────────────────────┘
+                    ↙               ↘
+            RECHAZADA          APROBADA
+                ↓                  ↓
+    Estado: REJECTED      Estado: APPROVED
+    (vuelve al asesor)    (lista para publicar)
+                                   ↓
+                    ┌──────────────────────────┐
+                    │ PUBLISHER: Publica       │
+                    │ Estado: PUBLISHED        │
+                    └──────────────────────────┘
+            </div>
+        </div>
+
+        <h2>6️⃣ Estructura de Base de Datos - Tabla USUARIOS</h2>
+        <div class="card">
+            <table>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Descripción</th>
+                </tr>
+                <tr>
+                    <td><strong>id</strong></td>
+                    <td>UUID</td>
+                    <td>PK (vinculado a auth.users)</td>
+                </tr>
+                <tr>
+                    <td><strong>email</strong></td>
+                    <td>text</td>
+                    <td>nombre@montana.com</td>
+                </tr>
+                <tr>
+                    <td><strong>rol</strong></td>
+                    <td>enum</td>
+                    <td>agent | admin | jefe | secretaria</td>
+                </tr>
+                <tr>
+                    <td><strong>nombre</strong></td>
+                    <td>text</td>
+                    <td>Nombre completo</td>
+                </tr>
+                <tr>
+                    <td><strong>activo</strong></td>
+                    <td>boolean</td>
+                    <td>¿Puede acceder al sistema?</td>
+                </tr>
+                <tr>
+                    <td><strong>creado_en</strong></td>
+                    <td>timestamp</td>
+                    <td>Fecha de creación</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2>7️⃣ Permisos en la Base de Datos (Row Level Security)</h2>
+        <div class="card">
+            <div class="list-item">
+                <span class="title-bold">Asesor (agent):</span> Ve/edita solo propiedades donde user_id = su ID
+            </div>
+            <div class="list-item">
+                <span class="title-bold">Admin/Jefe/Secretaria:</span> Ve todas las propiedades, puede cambiar estado
+            </div>
+            <div class="list-item">
+                <span class="title-bold">Publisher:</span> Ve propiedades aprobadas, puede publicar
+            </div>
+        </div>
+
+        <h2>8️⃣ Flujo de Creación de Usuarios (Admin)</h2>
+        <div class="card">
+            <div class="diagram">
+ADMIN crea nuevo asesor:
+  1. Nombre: "María López"
+  2. Email: maria.lopez@montana.com
+  3. Rol: agent
+  4. ✓ Sistema genera password temporal
+  5. ✓ Envía email con link de acceso
+  6. ✓ María puede resetear password en primer login
+            </div>
+        </div>
+
+        <h2>9️⃣ Resumen - Tres Vistas Diferentes</h2>
+        <div class="grid">
+            <div class="card">
+                <h3 style="color: #4ecdc4; margin-bottom: 15px;">👤 ASESOR</h3>
+                <div class="list-item">Email: nombre@montana.com</div>
+                <div class="list-item">Rol: agent</div>
+                <div class="list-item">Acceso: /propiedades/nueva</div>
+                <div class="list-item">Ve: Sus propiedades</div>
+                <div class="list-item">Hace: Crear, editar, enviar</div>
+            </div>
+            <div class="card">
+                <h3 style="color: #95e1d3; margin-bottom: 15px;">👨‍💼 JEFE/SECRETARIA</h3>
+                <div class="list-item">Email: jefe@montana.com</div>
+                <div class="list-item">Rol: admin</div>
+                <div class="list-item">Acceso: /propiedades (admin)</div>
+                <div class="list-item">Ve: Todas las propiedades</div>
+                <div class="list-item">Hace: Revisar, aprobar, rechazar</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
