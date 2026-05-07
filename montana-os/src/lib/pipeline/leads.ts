@@ -19,10 +19,12 @@ export async function getLeads(
     query = query.eq('assigned_to', options.assigned_to);
   }
 
+  const limit = options?.limit || 50;
+  const offset = options?.offset || 0;
+
   const { data, error } = await query
     .order('created_at', { ascending: false })
-    .limit(options?.limit || 50)
-    .offset(options?.offset || 0);
+    .range(offset, offset + limit - 1);
 
   if (error) throw error;
   return data as Lead[];

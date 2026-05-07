@@ -1,0 +1,126 @@
+
+> montana-os@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use, trying 3001 instead.
+ ⚠ Port 3001 is in use, trying 3002 instead.
+ ⚠ Port 3002 is in use, trying 3003 instead.
+  ▲ Next.js 14.2.18
+  - Local:        http://localhost:3003
+  - Environments: .env.local
+
+ ✓ Starting...
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack from C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\.next\cache\webpack\client-development.pack.gz failed: TypeError: Cannot read properties of undefined (reading 'hasStartTime')
+ ✓ Ready in 2.8s
+ ○ Compiling /src/middleware ...
+ ✓ Compiled /src/middleware in 513ms (125 modules)
+ ○ Compiling / ...
+ ✓ Compiled / in 6.3s (516 modules)
+ ✓ Compiled in 543ms (257 modules)
+ GET / 200 in 6888ms
+ ✓ Compiled in 131ms (243 modules)
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (101kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (231kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ○ Compiling /propiedades ...
+ ✓ Compiled /propiedades in 4.7s (726 modules)
+ GET /propiedades 200 in 5320ms
+ ✓ Compiled /revision in 331ms (730 modules)
+ ○ Compiling /pipeline ...
+ ✓ Compiled /pipeline in 1265ms (825 modules)
+ ✓ Compiled /leads in 447ms (827 modules)
+ ✓ Compiled /api/pipeline/leads in 466ms (489 modules)
+GET /api/pipeline/leads error: TypeError: query.order(...).limit(...).offset is not a function
+    at getLeads (webpack-internal:///(rsc)/./src/lib/pipeline/leads.ts:22:36)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/pipeline/leads/route.ts:30:23)
+    at async C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:55831
+    at async eO.execute (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:46527)
+    at async eO.handle (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:57165)
+    at async doRender (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\base-server.js:1353:42)
+    at async cacheEntry.responseCache.get.routeKind (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\base-server.js:1575:28)
+    at async DevServer.renderToResponseWithComponentsImpl (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\base-server.js:1483:28)
+    at async DevServer.renderPageComponent (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\base-server.js:1911:24)
+    at async DevServer.renderToResponseImpl (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\base-server.js:1949:32)
+    at async DevServer.pipeImpl (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\base-server.js:921:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\next-server.js:272:17)
+    at async DevServer.handleRequestImpl (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\base-server.js:817:17)
+    at async C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\dev\next-dev-server.js:339:20
+    at async Span.traceAsyncFn (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\trace\trace.js:154:20)
+    at async DevServer.handleRequest (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\dev\next-dev-server.js:336:24)
+    at async invokeRender (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\lib\router-server.js:173:21)
+    at async handleRequest (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\lib\router-server.js:350:24)
+    at async requestHandlerImpl (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\lib\router-server.js:374:13)
+    at async Server.requestListener (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\lib\start-server.js:141:13)
+ GET /api/pipeline/leads? 500 in 821ms
+GET /api/pipeline/leads error: TypeError: query.order(...).limit(...).offset is not a function
+    at getLeads (webpack-internal:///(rsc)/./src/lib/pipeline/leads.ts:22:36)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async GET (webpack-internal:///(rsc)/./src/app/api/pipeline/leads/route.ts:30:23)
+    at async C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:55831
+    at async eO.execute (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:46527)
+    at async eO.handle (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:57165)
+    at async doRender (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\base-server.js:1353:42)
+    at async cacheEntry.responseCache.get.routeKind (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\base-server.js:1575:28)
+    at async DevServer.renderToResponseWithComponentsImpl (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\base-server.js:1483:28)
+    at async DevServer.renderPageComponent (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\base-server.js:1911:24)
+    at async DevServer.renderToResponseImpl (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\base-server.js:1949:32)
+    at async DevServer.pipeImpl (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\base-server.js:921:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\next-server.js:272:17)
+    at async DevServer.handleRequestImpl (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\base-server.js:817:17)
+    at async C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\dev\next-dev-server.js:339:20
+    at async Span.traceAsyncFn (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\trace\trace.js:154:20)
+    at async DevServer.handleRequest (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\dev\next-dev-server.js:336:24)
+    at async invokeRender (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\lib\router-server.js:173:21)
+    at async handleRequest (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\lib\router-server.js:350:24)
+    at async requestHandlerImpl (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\lib\router-server.js:374:13)
+    at async Server.requestListener (C:\Users\bykai\OneDrive\Documents\GitHub\Montana-OS\montana-os\node_modules\next\dist\server\lib\start-server.js:141:13)
+ GET /api/pipeline/leads? 500 in 119ms
+ ○ Compiling /propiedades/nueva ...
+ ⨯ ./src/components/propiedades/ConfirmIncompleteDialog.tsx:4:1
+Module not found: Can't resolve '@radix-ui/react-alert-dialog'
+[0m [90m 2 |[39m[0m
+[0m [90m 3 |[39m [36mimport[39m [33mReact[39m [36mfrom[39m [32m'react'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m [33m*[39m [36mas[39m [33mAlertDialog[39m [36mfrom[39m [32m'@radix-ui/react-alert-dialog'[39m[33m;[39m[0m
+[0m [90m   |[39m [31m[1m^[22m[39m[0m
+[0m [90m 5 |[39m[0m
+[0m [90m 6 |[39m [36minterface[39m [33mConfirmIncompleteDialogProps[39m {[0m
+[0m [90m 7 |[39m   open[33m:[39m boolean[33m;[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/components/propiedades/FormStep4.tsx
+./src/components/propiedades/FormContainer.tsx
+ ⨯ ./src/components/propiedades/ConfirmIncompleteDialog.tsx:4:1
+Module not found: Can't resolve '@radix-ui/react-alert-dialog'
+[0m [90m 2 |[39m[0m
+[0m [90m 3 |[39m [36mimport[39m [33mReact[39m [36mfrom[39m [32m'react'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m [33m*[39m [36mas[39m [33mAlertDialog[39m [36mfrom[39m [32m'@radix-ui/react-alert-dialog'[39m[33m;[39m[0m
+[0m [90m   |[39m [31m[1m^[22m[39m[0m
+[0m [90m 5 |[39m[0m
+[0m [90m 6 |[39m [36minterface[39m [33mConfirmIncompleteDialogProps[39m {[0m
+[0m [90m 7 |[39m   open[33m:[39m boolean[33m;[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/components/propiedades/FormStep4.tsx
+./src/components/propiedades/FormContainer.tsx
+ ⨯ ./src/components/propiedades/ConfirmIncompleteDialog.tsx:4:1
+Module not found: Can't resolve '@radix-ui/react-alert-dialog'
+[0m [90m 2 |[39m[0m
+[0m [90m 3 |[39m [36mimport[39m [33mReact[39m [36mfrom[39m [32m'react'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m 4 |[39m [36mimport[39m [33m*[39m [36mas[39m [33mAlertDialog[39m [36mfrom[39m [32m'@radix-ui/react-alert-dialog'[39m[33m;[39m[0m
+[0m [90m   |[39m [31m[1m^[22m[39m[0m
+[0m [90m 5 |[39m[0m
+[0m [90m 6 |[39m [36minterface[39m [33mConfirmIncompleteDialogProps[39m {[0m
+[0m [90m 7 |[39m   open[33m:[39m boolean[33m;[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/components/propiedades/FormStep4.tsx
+./src/components/propiedades/FormContainer.tsx
+ GET /api/pipeline/leads? 500 in 3255ms
+ GET /api/pipeline/leads? 500 in 36ms
+ GET / 500 in 42ms
