@@ -2,6 +2,60 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
 /**
+ * GET /api/properties
+ *
+ * Fetch all properties for the current user
+ *
+ * Response:
+ * [
+ *   {
+ *     "id": "uuid",
+ *     "code": "MR-2026-XXXX",
+ *     "status": "draft",
+ *     ...
+ *   }
+ * ]
+ */
+export async function GET() {
+  try {
+    const supabase = await createClient();
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    const { data, error } = await supabase
+      .from('properties')
+      .select('*')
+      .eq('captured_by', user.id)
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Fetch properties DB error:', error);
+      return NextResponse.json(
+        { error: 'Failed to fetch properties' },
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
+    return NextResponse.json(data || [], {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (error) {
+    console.error('Fetch properties error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+}
+
+/**
  * POST /api/properties
  *
  * Create a new property record with sensible defaults.

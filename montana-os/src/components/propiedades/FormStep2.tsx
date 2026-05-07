@@ -1,23 +1,27 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useForm as useReactHookForm } from 'react-hook-form';
+import React, { useState, useEffect } from 'react';
+import { useForm as useReactHookForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { step2Schema, type Step2Input } from '@/lib/formValidation';
 import { useForm } from '@/context/formContext';
+import { MapPin, Check } from 'lucide-react';
 
 export function FormStep2() {
   const { getStepData, updateStep, goToStep } = useForm();
   const [isLoadingGPS, setIsLoadingGPS] = useState(false);
   const [gpsError, setGpsError] = useState<string | null>(null);
+  const [gpsCoords, setGpsCoords] = useState<{ lat: number; lng: number } | null>(null);
 
   const defaultValues = getStepData(2) as Partial<Step2Input>;
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
     setValue,
+    watch,
   } = useReactHookForm<Step2Input>({
     resolver: zodResolver(step2Schema),
     mode: 'onBlur',
@@ -28,6 +32,14 @@ export function FormStep2() {
       references: defaultValues?.references || '',
     },
   });
+
+  // Watch GPS changes
+  const gpsValue = watch('gps');
+  useEffect(() => {
+    if (gpsValue?.lat && gpsValue?.lng) {
+      setGpsCoords(gpsValue);
+    }
+  }, [gpsValue]);
 
   const handleCaptureGPS = () => {
     setIsLoadingGPS(true);
@@ -113,10 +125,11 @@ export function FormStep2() {
         <button
           type="button"
           onClick={handleCaptureGPS}
-          disabled={isLoadingGPS}
-          className="w-full px-4 py-2 bg-montana-gold text-white rounded-lg hover:bg-opacity-90 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors font-medium"
+          disabled={isLoadingGPS || !!gpsCoords}
+          className="w-full px-4 py-2 bg-montana-gold text-white rounded-lg hover:bg-opacity-90 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors font-medium flex items-center justify-center gap-2"
         >
-          {isLoadingGPS ? 'Obteniendo...' : 'Capturar ubicación'}
+          <MapPin className="h-4 w-4" />
+          {isLoadingGPS ? 'Obteniendo ubicación...' : gpsCoords ? '✓ Ubicación capturada' : 'Capturar ubicación'}
         </button>
 
         {gpsError && (
@@ -124,15 +137,22 @@ export function FormStep2() {
         )}
 
         {/* Display GPS coordinates if captured */}
-        <div className="mt-2">
-          {register('gps').name && (
-            <div className="bg-gray-800 p-3 rounded-lg border border-gray-700">
-              <p className="text-sm text-gray-400">
-                Coordenadas capturadas en tiempo real
-              </p>
+        {gpsCoords && (
+          <div className="mt-3 bg-green-900/20 border border-green-700 rounded-lg p-3">
+            <div className="flex items-start gap-2">
+              <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-medium text-green-400">Ubicación capturada</p>
+                <p className="text-xs text-green-300 mt-1">
+                  Latitud: {gpsCoords.lat.toFixed(6)}
+                </p>
+                <p className="text-xs text-green-300">
+                  Longitud: {gpsCoords.lng.toFixed(6)}
+                </p>
+              </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Referencias (References) */}

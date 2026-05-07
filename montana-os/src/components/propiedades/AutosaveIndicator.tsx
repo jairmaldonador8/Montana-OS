@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 
 interface AutosaveIndicatorProps {
-  status: 'idle' | 'saving' | 'saved' | 'error' | null;
+  status: 'idle' | 'saving' | 'saved' | 'error' | 'draft_saving' | 'draft_saved' | null;
 }
 
 export function AutosaveIndicator({ status }: AutosaveIndicatorProps) {
@@ -41,6 +41,16 @@ export function AutosaveIndicator({ status }: AutosaveIndicatorProps) {
         return {
           text: '✓ Guardado',
           className: 'text-green-500 font-medium',
+        };
+      case 'draft_saving':
+        return {
+          text: '💾 Guardando como borrador...',
+          className: 'text-amber-500',
+        };
+      case 'draft_saved':
+        return {
+          text: '✓ Borrador guardado',
+          className: 'text-amber-400 font-medium',
         };
       case 'error':
         return {

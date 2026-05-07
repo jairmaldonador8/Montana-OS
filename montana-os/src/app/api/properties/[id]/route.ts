@@ -96,12 +96,20 @@ export async function PATCH(
       }
     }
 
-    // Ensure at least one field is being updated
-    if (Object.keys(updateData).length === 0) {
+    // For drafts, allow saving even with minimal data
+    // For final submissions, require more fields
+    const isDraft = body.status === 'draft';
+
+    if (!isDraft && Object.keys(updateData).length === 0) {
       return NextResponse.json(
-        { error: 'Invalid request' },
+        { error: 'Invalid request: at least one field required' },
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
+    }
+
+    // If no fields to update but status is changing to draft, allow it
+    if (isDraft && Object.keys(updateData).length === 0) {
+      updateData.status = 'draft';
     }
 
     // Update database with ownership check
