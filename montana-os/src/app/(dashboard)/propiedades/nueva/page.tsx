@@ -21,20 +21,22 @@ export default async function NuevaPropiedadPage() {
   const propertyId = nanoid();
 
   return (
-    <div className="space-y-8 max-w-3xl">
-      <div>
-        <p className="text-xs uppercase tracking-[0.3em] text-montana-gold">
-          Captura
-        </p>
-        <h1 className="text-4xl font-editorial mt-2">Nueva propiedad</h1>
-        <p className="text-muted-foreground mt-2 font-editorial italic">
-          Llena los datos · la asistente revisará y publicará.
-        </p>
-      </div>
+    <div className="min-h-screen bg-black p-8">
+      <div className="space-y-8 max-w-3xl">
+        <div>
+          <p className="text-xs uppercase tracking-[0.3em] text-montana-gold">
+            Captura
+          </p>
+          <h1 className="text-4xl font-editorial mt-2 text-white">Nueva propiedad</h1>
+          <p className="text-gray-400 mt-2 font-editorial italic">
+            Llena los datos · la asistente revisará y publicará.
+          </p>
+        </div>
 
-      <FormProvider propertyId={propertyId}>
-        <FormContainer propertyId={propertyId} />
-      </FormProvider>
+        <FormProvider propertyId={propertyId}>
+          <FormContainer propertyId={propertyId} />
+        </FormProvider>
+      </div>
     </div>
   );
 }

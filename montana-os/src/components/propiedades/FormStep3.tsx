@@ -98,7 +98,7 @@ export function FormStep3() {
       <div className="grid grid-cols-2 gap-4">
         {/* Recámaras */}
         <div>
-          <label htmlFor="bedrooms" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="bedrooms" className="block text-sm font-medium text-white mb-1">
             Recámaras <span className="text-red-500">*</span>
           </label>
           <input
@@ -110,18 +110,18 @@ export function FormStep3() {
             {...register('bedrooms', {
               valueAsNumber: true,
             })}
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.bedrooms ? 'border-red-500' : 'border-gray-300'
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-montana-gold bg-gray-800 text-white placeholder-gray-500 ${
+              errors.bedrooms ? 'border-red-500' : 'border-gray-600'
             }`}
           />
           {errors.bedrooms && (
-            <p className="text-red-500 text-sm mt-1">{errors.bedrooms.message}</p>
+            <p className="text-red-400 text-sm mt-1">{errors.bedrooms.message}</p>
           )}
         </div>
 
         {/* Baños */}
         <div>
-          <label htmlFor="bathrooms" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="bathrooms" className="block text-sm font-medium text-white mb-1">
             Baños <span className="text-red-500">*</span>
           </label>
           <input
@@ -133,19 +133,19 @@ export function FormStep3() {
             {...register('bathrooms', {
               valueAsNumber: true,
             })}
-            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              errors.bathrooms ? 'border-red-500' : 'border-gray-300'
+            className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-montana-gold bg-gray-800 text-white placeholder-gray-500 ${
+              errors.bathrooms ? 'border-red-500' : 'border-gray-600'
             }`}
           />
           {errors.bathrooms && (
-            <p className="text-red-500 text-sm mt-1">{errors.bathrooms.message}</p>
+            <p className="text-red-400 text-sm mt-1">{errors.bathrooms.message}</p>
           )}
         </div>
       </div>
 
       {/* Construcción (m²) */}
       <div>
-        <label htmlFor="m2Built" className="block text-sm font-medium text-gray-700 mb-1">
+        <label htmlFor="m2Built" className="block text-sm font-medium text-white mb-1">
           Construcción (m²) <span className="text-red-500">*</span>
         </label>
         <input
@@ -157,19 +157,19 @@ export function FormStep3() {
           {...register('m2Built', {
             valueAsNumber: true,
           })}
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            errors.m2Built ? 'border-red-500' : 'border-gray-300'
+          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-montana-gold bg-gray-800 text-white placeholder-gray-500 ${
+            errors.m2Built ? 'border-red-500' : 'border-gray-600'
           }`}
         />
         {errors.m2Built && (
-          <p className="text-red-500 text-sm mt-1">{errors.m2Built.message}</p>
+          <p className="text-red-400 text-sm mt-1">{errors.m2Built.message}</p>
         )}
       </div>
 
       {/* Terreno (m²) - Optional */}
       <div>
-        <label htmlFor="m2Land" className="block text-sm font-medium text-gray-700 mb-1">
-          Terreno (m²) <span className="text-gray-500 text-xs">(Opcional)</span>
+        <label htmlFor="m2Land" className="block text-sm font-medium text-white mb-1">
+          Terreno (m²) <span className="text-gray-400 text-xs">(Opcional)</span>
         </label>
         <input
           id="m2Land"
@@ -180,26 +180,26 @@ export function FormStep3() {
           {...register('m2Land', {
             valueAsNumber: true,
           })}
-          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            errors.m2Land ? 'border-red-500' : 'border-gray-300'
+          className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-montana-gold bg-gray-800 text-white placeholder-gray-500 ${
+            errors.m2Land ? 'border-red-500' : 'border-gray-600'
           }`}
         />
         {errors.m2Land && (
-          <p className="text-red-500 text-sm mt-1">{errors.m2Land.message}</p>
+          <p className="text-red-400 text-sm mt-1">{errors.m2Land.message}</p>
         )}
       </div>
 
       {/* Amenidades */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-3">
-          Amenidades <span className="text-gray-500 text-xs">(Opcional)</span>
+        <label className="block text-sm font-medium text-white mb-3">
+          Amenidades <span className="text-gray-400 text-xs">(Opcional)</span>
         </label>
 
         {/* Amenities Groups */}
         {Object.entries(AMENITY_GROUPS).map(([groupName, amenities]) => (
           <div key={groupName} className="mb-6">
             {/* Group Header */}
-            <h3 className="text-xs font-semibold text-gray-600 tracking-wider uppercase mb-3">
+            <h3 className="text-xs font-semibold text-gray-400 tracking-wider uppercase mb-3">
               {groupName}
             </h3>
 
@@ -212,11 +212,11 @@ export function FormStep3() {
                     type="checkbox"
                     value={amenity}
                     {...register('amenities')}
-                    className="w-4 h-4 mt-0.5 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                    className="w-4 h-4 mt-0.5 text-montana-gold border-gray-600 rounded focus:ring-2 focus:ring-montana-gold cursor-pointer bg-gray-800"
                   />
                   <label
                     htmlFor={amenity}
-                    className="ml-2 text-sm text-gray-700 cursor-pointer"
+                    className="ml-2 text-sm text-gray-300 cursor-pointer"
                   >
                     {formatAmenityLabel(amenity)}
                   </label>
@@ -227,7 +227,7 @@ export function FormStep3() {
         ))}
 
         {errors.amenities && (
-          <p className="text-red-500 text-sm mt-2">{errors.amenities.message}</p>
+          <p className="text-red-400 text-sm mt-2">{errors.amenities.message}</p>
         )}
       </div>
 
@@ -236,13 +236,13 @@ export function FormStep3() {
         <button
           type="button"
           onClick={() => goToStep(2)}
-          className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+          className="flex-1 px-4 py-2 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-800 transition-colors font-medium"
         >
           Anterior
         </button>
         <button
           type="submit"
-          className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+          className="flex-1 px-4 py-2 bg-montana-gold text-white rounded-lg hover:bg-opacity-90 transition-colors font-medium"
         >
           Siguiente
         </button>

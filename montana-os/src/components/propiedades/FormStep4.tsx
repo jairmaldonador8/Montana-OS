@@ -168,16 +168,16 @@ export function FormStep4({ propertyId }: FormStep4Props) {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
       {/* Fotos Section */}
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-gray-900">Fotos</h2>
+        <h2 className="text-2xl font-bold text-white">Fotos</h2>
         <GalleryUpload propertyId={propertyId} onComplete={handlePhotosComplete} />
         {errors.photos && (
-          <p className="text-sm text-red-500">{errors.photos.message}</p>
+          <p className="text-sm text-red-400">{errors.photos.message}</p>
         )}
       </div>
 
       {/* Descripción Section */}
       <div className="space-y-3">
-        <label htmlFor="description" className="block text-sm font-medium text-gray-900">
+        <label htmlFor="description" className="block text-sm font-medium text-white">
           Descripción
         </label>
         <Controller
@@ -190,8 +190,8 @@ export function FormStep4({ propertyId }: FormStep4Props) {
               rows={6}
               placeholder="Describe la propiedad en tus propias palabras..."
               maxLength={500}
-              className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-montana-gold resize-none ${
-                errors.description ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-montana-gold bg-gray-800 text-white placeholder-gray-500 resize-none ${
+                errors.description ? 'border-red-500' : 'border-gray-600'
               }`}
             />
           )}
@@ -201,10 +201,10 @@ export function FormStep4({ propertyId }: FormStep4Props) {
         <div className="flex justify-between items-center">
           <div>
             {errors.description && (
-              <p className="text-sm text-red-500">{errors.description.message}</p>
+              <p className="text-sm text-red-400">{errors.description.message}</p>
             )}
           </div>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-400">
             {descriptionLength}/500 caracteres
           </p>
         </div>
@@ -212,8 +212,8 @@ export function FormStep4({ propertyId }: FormStep4Props) {
 
       {/* Error message if submission fails */}
       {submitError && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-sm text-red-800">{submitError}</p>
+        <div className="p-4 bg-red-900/20 border border-red-700 rounded-lg">
+          <p className="text-sm text-red-400">{submitError}</p>
         </div>
       )}
 
@@ -226,7 +226,7 @@ export function FormStep4({ propertyId }: FormStep4Props) {
             type="button"
             onClick={() => formContext.goToStep(3)}
             disabled={isSubmitting || isDraftSaving}
-            className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 px-4 py-3 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-800 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Anterior
           </button>
@@ -238,8 +238,8 @@ export function FormStep4({ propertyId }: FormStep4Props) {
             disabled={isSubmitting || isDraftSaving}
             className={`flex-1 px-4 py-3 border rounded-lg transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed ${
               showConfirmCancel
-                ? 'bg-red-50 border-red-300 text-red-700 hover:bg-red-100'
-                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                ? 'bg-red-900/20 border-red-700 text-red-400 hover:bg-red-900/30'
+                : 'border-gray-600 text-gray-300 hover:bg-gray-800'
             }`}
           >
             {showConfirmCancel ? '¿Confirmar?' : 'Cancelar'}
@@ -260,7 +260,7 @@ export function FormStep4({ propertyId }: FormStep4Props) {
           type="button"
           onClick={() => setShowConfirmIncomplete(true)}
           disabled={isSubmitting || isDraftSaving}
-          className="w-full px-4 py-3 border border-amber-300 bg-amber-50 text-amber-700 rounded-lg hover:bg-amber-100 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full px-4 py-3 border border-amber-700 bg-amber-900/20 text-amber-400 rounded-lg hover:bg-amber-900/30 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isDraftSaving ? 'Guardando...' : 'Guardar propiedad incompleta'}
         </button>
@@ -268,7 +268,7 @@ export function FormStep4({ propertyId }: FormStep4Props) {
 
       {/* Cancel confirmation state info */}
       {showConfirmCancel && (
-        <p className="text-sm text-center text-gray-600 -mt-2">
+        <p className="text-sm text-center text-gray-400 -mt-2">
           Se descartarán todos los cambios
         </p>
       )}

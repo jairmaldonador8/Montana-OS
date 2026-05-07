@@ -51,7 +51,7 @@ export function FormStep1() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Tipo de propiedad */}
       <div className="space-y-3">
-        <label className="block text-sm font-medium text-gray-900">
+        <label className="block text-sm font-medium text-white">
           Tipo de propiedad <span className="text-red-500">*</span>
         </label>
         <Controller
@@ -66,8 +66,8 @@ export function FormStep1() {
                   onClick={() => field.onChange(propertyType.id)}
                   className={`p-3 border-2 rounded-lg text-sm font-medium transition-all ${
                     field.value === propertyType.id
-                      ? 'border-montana-gold bg-montana-gold/10 text-gray-900'
-                      : 'border-gray-300 bg-white text-gray-700 hover:border-montana-gold'
+                      ? 'border-montana-gold bg-montana-gold/20 text-white'
+                      : 'border-gray-600 bg-gray-800 text-gray-300 hover:border-montana-gold hover:bg-gray-700'
                   }`}
                 >
                   {propertyType.label}
@@ -77,13 +77,13 @@ export function FormStep1() {
           )}
         />
         {errors.type && (
-          <p className="text-sm text-red-500">{errors.type.message}</p>
+          <p className="text-sm text-red-400">{errors.type.message}</p>
         )}
       </div>
 
       {/* Operación */}
       <div className="space-y-3">
-        <label className="block text-sm font-medium text-gray-900">
+        <label className="block text-sm font-medium text-white">
           Operación <span className="text-red-500">*</span>
         </label>
         <Controller
@@ -98,8 +98,8 @@ export function FormStep1() {
                   onClick={() => field.onChange(op.id)}
                   className={`p-3 border-2 rounded-lg text-sm font-medium text-left transition-all ${
                     field.value === op.id
-                      ? 'border-montana-gold bg-montana-gold/10 text-gray-900'
-                      : 'border-gray-300 bg-white text-gray-700 hover:border-montana-gold'
+                      ? 'border-montana-gold bg-montana-gold/20 text-white'
+                      : 'border-gray-600 bg-gray-800 text-gray-300 hover:border-montana-gold hover:bg-gray-700'
                   }`}
                 >
                   {op.label}
@@ -109,13 +109,13 @@ export function FormStep1() {
           )}
         />
         {errors.operation && (
-          <p className="text-sm text-red-500">{errors.operation.message}</p>
+          <p className="text-sm text-red-400">{errors.operation.message}</p>
         )}
       </div>
 
       {/* Precio */}
       <div className="space-y-2">
-        <label htmlFor="price" className="block text-sm font-medium text-gray-900">
+        <label htmlFor="price" className="block text-sm font-medium text-white">
           Precio <span className="text-red-500">*</span>
         </label>
         <div className="flex gap-2">
@@ -128,8 +128,8 @@ export function FormStep1() {
                 id="price"
                 type="number"
                 placeholder="0.00"
-                className={`flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-montana-gold ${
-                  errors.price ? 'border-red-500' : 'border-gray-300'
+                className={`flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-montana-gold bg-gray-800 text-white placeholder-gray-500 ${
+                  errors.price ? 'border-red-500' : 'border-gray-600'
                 }`}
                 onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : '')}
               />
@@ -149,8 +149,8 @@ export function FormStep1() {
                     onClick={() => field.onChange(curr)}
                     className={`px-4 py-2 border-2 rounded-md font-medium transition-all min-w-20 ${
                       field.value === curr
-                        ? 'border-montana-gold bg-montana-gold/10 text-gray-900'
-                        : 'border-gray-300 bg-white text-gray-700 hover:border-montana-gold'
+                        ? 'border-montana-gold bg-montana-gold/20 text-white'
+                        : 'border-gray-600 bg-gray-800 text-gray-300 hover:border-montana-gold hover:bg-gray-700'
                     }`}
                   >
                     {curr}
@@ -161,14 +161,14 @@ export function FormStep1() {
           />
         </div>
         {errors.price && (
-          <p className="text-sm text-red-500">{errors.price.message}</p>
+          <p className="text-sm text-red-400">{errors.price.message}</p>
         )}
       </div>
 
       {/* Precio de renta - Conditional */}
       {(operation === 'renta' || operation === 'venta_o_renta') && (
         <div className="space-y-2">
-          <label htmlFor="rentalPrice" className="block text-sm font-medium text-gray-900">
+          <label htmlFor="rentalPrice" className="block text-sm font-medium text-white">
             Precio de renta mensual <span className="text-red-500">*</span>
           </label>
           <Controller
@@ -180,15 +180,15 @@ export function FormStep1() {
                 id="rentalPrice"
                 type="number"
                 placeholder="0.00"
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-montana-gold ${
-                  errors.rentalPrice ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-montana-gold bg-gray-800 text-white placeholder-gray-500 ${
+                  errors.rentalPrice ? 'border-red-500' : 'border-gray-600'
                 }`}
                 onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : '')}
               />
             )}
           />
           {errors.rentalPrice && (
-            <p className="text-sm text-red-500">{errors.rentalPrice.message}</p>
+            <p className="text-sm text-red-400">{errors.rentalPrice.message}</p>
           )}
         </div>
       )}

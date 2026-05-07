@@ -114,18 +114,18 @@ export function FormContainer({ propertyId }: FormContainerProps) {
             <div
               key={step}
               className={`flex-1 h-1.5 rounded-full transition-colors duration-300 ${
-                step <= currentStep ? 'bg-montana-gold' : 'bg-gray-200'
+                step <= currentStep ? 'bg-montana-gold' : 'bg-gray-700'
               }`}
             />
           ))}
         </div>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-gray-400">
           Paso {currentStep} de 4
         </p>
       </div>
 
       {/* Form Card */}
-      <div className="bg-white border border-gray-200 rounded-lg p-8">
+      <div className="bg-gray-900 border border-gray-800 rounded-lg p-8">
         {renderStep()}
       </div>
 
