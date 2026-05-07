@@ -20,6 +20,7 @@ export interface Lead {
   id: string;
   property_id: string;
   assigned_to: string;
+  tenant_id: string;
   status: LeadStatus;
   nombre: string;
   email?: string;
