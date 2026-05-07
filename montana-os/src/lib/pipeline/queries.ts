@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/auth/server-auth';
+import { createClient } from '@/lib/supabase/server';
 import { PipelineAnalytics, LeadStatus } from '@/types/pipeline';
 
 export async function getPipelineAnalytics(): Promise<PipelineAnalytics> {

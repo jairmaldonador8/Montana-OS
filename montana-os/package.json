@@ -11,7 +11,8 @@
     "type-check": "tsc --noEmit",
     "test": "vitest",
     "test:ui": "vitest --ui",
-    "db:types": "supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > src/types/database.ts"
+    "db:types": "supabase gen types typescript --project-id $SUPABASE_PROJECT_ID > src/types/database.ts",
+    "seed:pipeline": "tsx scripts/ensure-schema.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.32.1",

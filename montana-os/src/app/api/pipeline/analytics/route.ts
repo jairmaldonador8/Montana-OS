@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerAuth } from '@/lib/auth/server-auth';
+import { createClient } from '@/lib/supabase/server';
 import { getPipelineAnalytics } from '@/lib/pipeline/queries';
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createServerAuth();
+    const supabase = await createClient();
     const {
       data: { user },
     } = await supabase.auth.getUser();

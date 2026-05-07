@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { step4Schema, type Step4Input } from '@/lib/formValidation';
 import { useForm } from '@/context/formContext';
 import { GalleryUpload } from './GalleryUpload';
+import { ConfirmIncompleteDialog } from './ConfirmIncompleteDialog';
 
 interface FormStep4Props {
   propertyId: string;
@@ -18,6 +19,8 @@ export function FormStep4({ propertyId }: FormStep4Props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [showConfirmCancel, setShowConfirmCancel] = useState(false);
+  const [showConfirmIncomplete, setShowConfirmIncomplete] = useState(false);
+  const [isDraftSaving, setIsDraftSaving] = useState(false);
 
   // Initialize react-hook-form with validation
   const {
@@ -59,6 +62,58 @@ export function FormStep4({ propertyId }: FormStep4Props) {
       formContext.resetForm();
     } else {
       setShowConfirmCancel(true);
+    }
+  };
+
+  // Handle saving as draft (incomplete property)
+  const handleSaveDraft = async () => {
+    setIsDraftSaving(true);
+    setSubmitError(null);
+
+    try {
+      // Compile form data from all steps (even if incomplete)
+      const draftData: any = {
+        ...formContext.formState.step1,
+        ...formContext.formState.step2,
+        ...formContext.formState.step3,
+        status: 'draft', // Save as draft instead of pending_review
+      };
+
+      // Add description if provided
+      if (description) {
+        draftData.description = description;
+      }
+
+      const fullFormData = draftData;
+
+      // PATCH /api/properties/{propertyId}
+      const response = await fetch(`/api/properties/${propertyId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(fullFormData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.message || `Error al guardar la propiedad (${response.status})`
+        );
+      }
+
+      // Clear localStorage
+      localStorage.removeItem('propertyFormDraft');
+
+      // Close dialog and redirect
+      setShowConfirmIncomplete(false);
+      window.location.href = '/dashboard/propiedades';
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Error desconocido al guardar la propiedad';
+      setSubmitError(errorMessage);
+      setIsDraftSaving(false);
+      setShowConfirmIncomplete(false);
     }
   };
 
@@ -163,38 +218,51 @@ export function FormStep4({ propertyId }: FormStep4Props) {
       )}
 
       {/* Navigation Buttons */}
-      <div className="flex gap-4 pt-6">
-        {/* Anterior button */}
+      <div className="flex flex-col gap-3 pt-6">
+        {/* Primary action buttons row */}
+        <div className="flex gap-4">
+          {/* Anterior button */}
+          <button
+            type="button"
+            onClick={() => formContext.goToStep(3)}
+            disabled={isSubmitting || isDraftSaving}
+            className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Anterior
+          </button>
+
+          {/* Cancelar button */}
+          <button
+            type="button"
+            onClick={handleCancel}
+            disabled={isSubmitting || isDraftSaving}
+            className={`flex-1 px-4 py-3 border rounded-lg transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed ${
+              showConfirmCancel
+                ? 'bg-red-50 border-red-300 text-red-700 hover:bg-red-100'
+                : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+            }`}
+          >
+            {showConfirmCancel ? '¿Confirmar?' : 'Cancelar'}
+          </button>
+
+          {/* Enviar a revisión button */}
+          <button
+            type="submit"
+            disabled={isSubmitting || isDraftSaving}
+            className="flex-1 px-4 py-3 bg-montana-gold text-white rounded-lg hover:bg-opacity-90 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? 'Enviando...' : 'Enviar a revisión'}
+          </button>
+        </div>
+
+        {/* Secondary action: Save as draft */}
         <button
           type="button"
-          onClick={() => formContext.goToStep(3)}
-          disabled={isSubmitting}
-          className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={() => setShowConfirmIncomplete(true)}
+          disabled={isSubmitting || isDraftSaving}
+          className="w-full px-4 py-3 border border-amber-300 bg-amber-50 text-amber-700 rounded-lg hover:bg-amber-100 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Anterior
-        </button>
-
-        {/* Cancelar button */}
-        <button
-          type="button"
-          onClick={handleCancel}
-          disabled={isSubmitting}
-          className={`flex-1 px-4 py-3 border rounded-lg transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed ${
-            showConfirmCancel
-              ? 'bg-red-50 border-red-300 text-red-700 hover:bg-red-100'
-              : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-          }`}
-        >
-          {showConfirmCancel ? '¿Confirmar?' : 'Cancelar'}
-        </button>
-
-        {/* Enviar a revisión button */}
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="flex-1 px-4 py-3 bg-montana-gold text-white rounded-lg hover:bg-opacity-90 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isSubmitting ? 'Enviando...' : 'Enviar a revisión'}
+          {isDraftSaving ? 'Guardando...' : 'Guardar propiedad incompleta'}
         </button>
       </div>
 
@@ -204,6 +272,14 @@ export function FormStep4({ propertyId }: FormStep4Props) {
           Se descartarán todos los cambios
         </p>
       )}
+
+      {/* Confirm Incomplete Dialog */}
+      <ConfirmIncompleteDialog
+        open={showConfirmIncomplete}
+        onConfirm={handleSaveDraft}
+        onCancel={() => setShowConfirmIncomplete(false)}
+        isLoading={isDraftSaving}
+      />
     </form>
   );
 }
