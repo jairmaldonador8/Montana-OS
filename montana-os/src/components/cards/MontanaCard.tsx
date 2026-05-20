@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import {
   Card,
   CardHeader,
@@ -15,16 +16,21 @@ interface MontanaCardProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const MontanaCardRoot = React.forwardRef<HTMLDivElement, MontanaCardProps>(
   ({ className, children, ...props }, ref) => (
-    <Card
-      ref={ref}
-      className={cn(
-        'bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300',
-        className
-      )}
-      {...props}
+    <motion.div
+      whileHover={{ y: -4 }}
+      transition={{ duration: 0.3, ease: 'easeOut' }}
     >
-      {children}
-    </Card>
+      <Card
+        ref={ref}
+        className={cn(
+          'bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300',
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </Card>
+    </motion.div>
   )
 );
 MontanaCardRoot.displayName = 'MontanaCard';

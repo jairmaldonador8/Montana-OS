@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'motion/react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -42,21 +43,27 @@ export const MontanaButton = React.forwardRef<
     };
 
     return (
-      <Button
-        ref={ref}
-        className={cn(
-          'font-semibold transition-colors duration-200 rounded-full',
-          variant !== 'icon' && sizeClasses[size],
-          variantClasses[variant],
-          disabled && 'opacity-50 cursor-not-allowed',
-          isLoading && 'pointer-events-none',
-          className
-        )}
-        disabled={disabled || isLoading}
-        {...props}
+      <motion.div
+        whileHover={{ y: -2 }}
+        whileTap={{ y: 0 }}
+        transition={{ duration: 0.2 }}
       >
-        {isLoading ? '...' : children}
-      </Button>
+        <Button
+          ref={ref}
+          className={cn(
+            'font-semibold transition-colors duration-200 rounded-full',
+            variant !== 'icon' && sizeClasses[size],
+            variantClasses[variant],
+            disabled && 'opacity-50 cursor-not-allowed',
+            isLoading && 'pointer-events-none',
+            className
+          )}
+          disabled={disabled || isLoading}
+          {...props}
+        >
+          {isLoading ? '...' : children}
+        </Button>
+      </motion.div>
     );
   }
 );
