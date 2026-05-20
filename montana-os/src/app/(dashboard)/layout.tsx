@@ -32,7 +32,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Topbar profile={profile as any} />
+      <Topbar profile={profile} />
       <div className="flex flex-1">
         <Sidebar role={profile.role as 'admin' | 'asesor' | 'coordinador'} />
         <main className="flex-1 overflow-auto">
