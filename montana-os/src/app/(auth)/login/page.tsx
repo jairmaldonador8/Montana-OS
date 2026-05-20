@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { useRouter } from 'next/navigation';
+import { MontanaButton } from '@/components/buttons/MontanaButton';
+import { MontanaCard } from '@/components/cards/MontanaCard';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -27,67 +29,90 @@ export default function LoginPage() {
     if (error) {
       setError(error.message);
     } else {
-      router.push('/propiedades');
+      router.push('/dashboard/propiedades');
     }
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center p-8">
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center space-y-3">
-          <p className="text-xs uppercase tracking-[0.3em] text-montana-gold">
-            Montana Realty Co.
+    <main className="min-h-screen bg-white flex items-center justify-center p-4 sm:p-8">
+      <div className="w-full max-w-md">
+        {/* Logo Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-2">
+            Montana OS
+          </h1>
+          <p className="text-gray-600 font-medium">
+            Sistema Operativo Inmobiliario
           </p>
-          <h1 className="text-5xl font-editorial font-light">Montana OS</h1>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div className="space-y-2">
-            <label htmlFor="email" className="text-xs uppercase tracking-widest text-muted-foreground">
-              Correo electrónico
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 bg-secondary border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-montana-gold"
-              placeholder="test@montanaos.com"
-            />
-          </div>
+        {/* Login Card */}
+        <MontanaCard>
+          <MontanaCard.Content>
+            <form onSubmit={handleLogin} className="space-y-4">
+              {/* Email Input */}
+              <div className="space-y-2">
+                <label htmlFor="email" className="block text-sm font-semibold text-gray-900">
+                  Correo Electrónico
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="tu@email.com"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-amber-400 focus:ring-2 focus:ring-amber-100 focus:outline-none transition-colors duration-200"
+                />
+              </div>
 
-          <div className="space-y-2">
-            <label htmlFor="password" className="text-xs uppercase tracking-widest text-muted-foreground">
-              Contraseña
-            </label>
-            <input
-              id="password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 bg-secondary border border-border rounded-md focus:outline-none focus:ring-1 focus:ring-montana-gold"
-              placeholder="Tu contraseña"
-            />
-          </div>
+              {/* Password Input */}
+              <div className="space-y-2">
+                <label htmlFor="password" className="block text-sm font-semibold text-gray-900">
+                  Contraseña
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Tu contraseña"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-amber-400 focus:ring-2 focus:ring-amber-100 focus:outline-none transition-colors duration-200"
+                />
+              </div>
 
-          {error && (
-            <p className="text-sm text-destructive">{error}</p>
-          )}
+              {/* Error Message */}
+              {error && (
+                <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+                  {error}
+                </div>
+              )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 border border-montana-gold text-montana-gold hover:bg-montana-gold hover:text-montana-black transition-colors text-sm uppercase tracking-widest disabled:opacity-50"
-          >
-            {loading ? 'Iniciando...' : 'Iniciar sesión'}
-          </button>
-        </form>
+              {/* Submit Button */}
+              <MontanaButton
+                type="submit"
+                variant="primary"
+                size="md"
+                isLoading={loading}
+                className="w-full"
+              >
+                {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+              </MontanaButton>
+            </form>
+          </MontanaCard.Content>
+        </MontanaCard>
 
-        <div className="text-center pt-4">
-          <p className="text-xs text-muted-foreground">
-            <strong>Demo:</strong> test@montanaos.com / Test123!@#
+        {/* Demo Credentials */}
+        <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+          <p className="text-xs text-gray-600 mb-2">
+            <strong className="text-amber-900">Credenciales de Demo:</strong>
+          </p>
+          <p className="text-xs text-gray-700 font-mono">
+            Email: <span className="text-amber-700">test@montanaos.com</span>
+          </p>
+          <p className="text-xs text-gray-700 font-mono">
+            Contraseña: <span className="text-amber-700">Test123!@#</span>
           </p>
         </div>
       </div>

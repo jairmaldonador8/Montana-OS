@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { MontanaButton } from '@/components/buttons/MontanaButton';
 
 export const HeroSection = () => {
@@ -17,9 +18,11 @@ export const HeroSection = () => {
           Montana OS - CRM Inmobiliario Premium
         </p>
 
-        <MontanaButton variant="primary" size="lg">
-          Comienza Ahora
-        </MontanaButton>
+        <Link href="/dashboard/propiedades">
+          <MontanaButton variant="primary" size="lg">
+            Comienza Ahora
+          </MontanaButton>
+        </Link>
       </div>
     </section>
   );

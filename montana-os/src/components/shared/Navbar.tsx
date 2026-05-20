@@ -2,12 +2,14 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Moon, Sun } from 'lucide-react';
 import { MontanaButton } from '@/components/buttons/MontanaButton';
+import { useTheme } from '@/context/ThemeContext';
 import { cn } from '@/lib/utils';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isDark, toggleTheme } = useTheme();
 
   const navItems = [
     { label: 'Propiedades', href: '/dashboard/propiedades' },
@@ -38,8 +40,21 @@ export const Navbar = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button & Theme Toggle */}
           <div className="flex items-center gap-4">
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+              aria-label="Toggle theme"
+            >
+              {isDark ? (
+                <Sun size={20} className="text-amber-400" />
+              ) : (
+                <Moon size={20} className="text-gray-600" />
+              )}
+            </button>
+
             <MontanaButton variant="primary" size="sm">
               Acceder
             </MontanaButton>
@@ -47,13 +62,13 @@ export const Navbar = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
               aria-label="Toggle menu"
             >
               {isOpen ? (
-                <X size={24} className="text-gray-900" />
+                <X size={24} className="text-gray-900 dark:text-white" />
               ) : (
-                <Menu size={24} className="text-gray-900" />
+                <Menu size={24} className="text-gray-900 dark:text-white" />
               )}
             </button>
           </div>
