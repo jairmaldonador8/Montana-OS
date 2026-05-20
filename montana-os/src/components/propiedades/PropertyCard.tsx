@@ -1,92 +1,90 @@
 'use client';
 
 import Link from 'next/link';
-import { AlertCircle, Home } from 'lucide-react';
+import { Heart, MapPin, Star, Home } from 'lucide-react';
+import { MontanaCard } from '@/components/cards/MontanaCard';
+import { MontanaButton } from '@/components/buttons/MontanaButton';
 
 interface PropertyCardProps {
-  id: string;
-  code: string;
-  type: string;
-  operation: string;
-  price: number;
-  address: string;
-  neighborhood: string;
-  status: string;
+  id?: string;
+  title?: string;
+  location?: string;
+  price?: string;
+  rating?: number;
+  favorites?: number;
+  imageUrl?: string;
+  // Legacy props for backward compatibility
+  code?: string;
+  type?: string;
+  operation?: string;
+  address?: string;
+  neighborhood?: string;
+  status?: string;
 }
 
-export function PropertyCard({
-  id,
-  code,
-  type,
-  operation,
-  price,
-  address,
-  neighborhood,
-  status,
-}: PropertyCardProps) {
-  const isDraft = status === 'draft';
-
+export const PropertyCard = ({
+  id = '1',
+  title = 'Casa Alfonso Reyes',
+  location = 'San Pedro Garza García',
+  price = '$5.2M',
+  rating = 5,
+  favorites = 12,
+  imageUrl,
+}: PropertyCardProps) => {
   return (
     <Link href={`/propiedades/${id}`}>
-      <div className="border border-gray-800 rounded-lg p-6 hover:border-montana-gold transition-colors cursor-pointer h-full bg-gray-900/50 relative">
-        {/* Draft Alert Badge */}
-        {isDraft && (
-          <div className="absolute top-4 right-4 flex items-center gap-2 bg-red-900/20 border border-red-700 rounded px-3 py-1.5">
-            <AlertCircle className="h-4 w-4 text-red-500" />
-            <span className="text-xs text-red-400 font-medium">Borrador</span>
-          </div>
-        )}
-
-        {/* Property Type Icon */}
-        <div className="flex items-start gap-4 mb-4">
-          <div className="p-3 bg-montana-gold/20 rounded-lg">
-            <Home className="h-6 w-6 text-montana-gold" />
-          </div>
-          <div className="flex-1">
-            <p className="text-xs text-montana-gold font-medium uppercase tracking-widest">
-              {code}
-            </p>
-            <h3 className="text-lg font-semibold text-white mt-1">{address}</h3>
-          </div>
+      <MontanaCard className="h-full hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+        {/* Image Placeholder */}
+        <div className="relative h-48 bg-gradient-to-br from-amber-100 to-yellow-100 flex items-center justify-center overflow-hidden rounded-t-xl">
+          {imageUrl ? (
+            <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
+          ) : (
+            <div className="text-amber-400">
+              <Home size={56} strokeWidth={1.5} />
+            </div>
+          )}
         </div>
 
-        {/* Property Details */}
-        <div className="space-y-3 mb-4">
-          <div className="flex justify-between items-center">
-            <p className="text-sm text-gray-400">Tipo:</p>
-            <p className="text-sm text-white capitalize">{type}</p>
+        {/* Content */}
+        <MontanaCard.Content className="pt-4">
+          {/* Header with Title and Favorite Button */}
+          <div className="flex items-start justify-between mb-2">
+            <h3 className="text-lg font-semibold text-gray-900 flex-1">{title}</h3>
+            <button className="ml-2 text-gray-400 hover:text-red-500 transition-colors flex-shrink-0">
+              <Heart size={20} />
+            </button>
           </div>
-          <div className="flex justify-between items-center">
-            <p className="text-sm text-gray-400">Operación:</p>
-            <p className="text-sm text-white capitalize">{operation}</p>
-          </div>
-          <div className="flex justify-between items-center">
-            <p className="text-sm text-gray-400">Ubicación:</p>
-            <p className="text-sm text-white">{neighborhood}</p>
-          </div>
-          <div className="flex justify-between items-center">
-            <p className="text-sm text-gray-400">Precio:</p>
-            <p className="text-sm text-montana-gold font-medium">
-              ${price.toLocaleString('es-ES')}
-            </p>
-          </div>
-        </div>
 
-        {/* Status Badge */}
-        <div className="pt-4 border-t border-gray-800">
-          <div className="inline-block">
-            <span
-              className={`text-xs uppercase tracking-widest font-medium px-3 py-1 rounded ${
-                isDraft
-                  ? 'bg-red-900/30 text-red-400'
-                  : 'bg-green-900/30 text-green-400'
-              }`}
-            >
-              {isDraft ? 'Pendiente de completar' : status}
-            </span>
+          {/* Star Rating */}
+          <div className="flex items-center gap-1 mb-3">
+            <div className="flex">
+              {Array.from({ length: rating }).map((_, i) => (
+                <Star key={i} size={16} className="fill-amber-400 text-amber-400" />
+              ))}
+            </div>
+            <span className="text-xs text-gray-600 ml-2">({favorites} favoritos)</span>
           </div>
-        </div>
-      </div>
+
+          {/* Price */}
+          <p className="text-2xl font-bold text-gray-900 mb-2">{price}</p>
+
+          {/* Location */}
+          <p className="text-sm text-gray-600 mb-4 flex items-center gap-1">
+            <MapPin size={14} className="text-amber-500 flex-shrink-0" />
+            <span>{location}</span>
+          </p>
+
+          {/* Buttons */}
+          <div className="grid grid-cols-2 gap-2">
+            <MontanaButton variant="primary" size="sm">
+              Ver más
+            </MontanaButton>
+            <MontanaButton variant="secondary" size="sm">
+              Contactar
+            </MontanaButton>
+          </div>
+        </MontanaCard.Content>
+      </MontanaCard>
     </Link>
   );
-}
+};
