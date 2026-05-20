@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import type { Database } from '@/types/database';
 
 export function useUserRole() {
   const [role, setRole] = useState<'admin' | 'asesor' | 'coordinador' | null>(null);
@@ -27,7 +28,7 @@ export function useUserRole() {
         .eq('id', user.id)
         .single();
 
-      setRole(data?.role as any || null);
+      setRole((data?.role as 'admin' | 'asesor' | 'coordinador') || null);
       setLoading(false);
     }
 

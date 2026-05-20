@@ -1,8 +1,9 @@
-import { createClient } from '@/lib/supabase/client';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import type { Database } from '@/types/database';
 
+const supabase = createClientComponentClient<Database>();
+
 export async function getCurrentUser() {
-  const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
@@ -16,12 +17,11 @@ export async function getCurrentUser() {
 }
 
 export async function getUserRole(userId: string): Promise<'admin' | 'asesor' | 'coordinador' | null> {
-  const supabase = createClient();
   const { data } = await supabase
     .from('users')
     .select('role')
     .eq('id', userId)
     .single();
 
-  return data?.role as any || null;
+  return (data?.role as 'admin' | 'asesor' | 'coordinador') || null;
 }

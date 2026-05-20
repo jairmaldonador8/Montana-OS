@@ -5,6 +5,8 @@ import { Inter, Cormorant_Garamond, Poppins } from 'next/font/google';
 import './globals.css';
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from '@/context/ThemeContext';
+import { SessionProvider } from '@supabase/auth-helpers-react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 const poppins = Poppins({subsets:['latin'],weight:['400','500','600','700'],variable:'--font-sans'});
 
@@ -26,10 +28,14 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const supabase = createClientComponentClient();
+
   return (
     <html lang="es" className={cn(inter.variable, cormorant.variable, "font-sans", poppins.variable)}>
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <SessionProvider supabaseClient={supabase}>
+          <ThemeProvider>{children}</ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );
