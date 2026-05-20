@@ -1,67 +1,145 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  :root {
-    /* Montana OS · sistema de diseño luxury · default a tema oscuro */
-    --background: 0 0% 4%;
-    --foreground: 40 25% 96%;
+@theme {
+  /* Color palette - Dynamic & Energetic system */
+  --color-white: #ffffff;
+  --color-background: #ffffff;
+  --color-foreground: #1f2937;
 
-    --card: 60 5% 11%;
-    --card-foreground: 40 25% 96%;
+  /* Primary yellow - vibrant accent */
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-amber-600: #d97706;
 
-    --popover: 60 5% 11%;
-    --popover-foreground: 40 25% 96%;
+  /* Secondary yellows */
+  --color-yellow-300: #fcd34d;
+  --color-yellow-200: #fef3c7;
 
-    --primary: 40 25% 96%;
-    --primary-foreground: 0 0% 4%;
+  /* Grays for text, borders, backgrounds */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-900: #1f2937;
 
-    --secondary: 60 4% 16%;
-    --secondary-foreground: 40 25% 96%;
+  /* Semantic colors */
+  --color-success: #10b981;
+  --color-error: #ef4444;
+  --color-warning: #f97316;
+  --color-info: #3b82f6;
 
-    --muted: 60 4% 16%;
-    --muted-foreground: 40 8% 60%;
+  /* Typography - Poppins */
+  --font-family-sans: "Poppins", system-ui, sans-serif;
+  --font-family-serif: "Poppins", sans-serif;
 
-    --accent: 41 47% 58%;
-    --accent-foreground: 0 0% 4%;
+  /* Font sizes */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
 
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 40 25% 96%;
+  /* Spacing scale */
+  --spacing-0: 0px;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
 
-    --border: 60 4% 18%;
-    --input: 60 4% 18%;
-    --ring: 41 47% 58%;
+  /* Border radius - rounded aesthetic */
+  --border-radius-none: 0px;
+  --border-radius-sm: 0.375rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 1rem;
+  --border-radius-xl: 1.25rem;
+  --border-radius-2xl: 1.5rem;
+  --border-radius-full: 9999px;
 
-    --radius: 0.375rem;
-  }
+  /* Shadows - subtle, not dramatic */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-gray-200;
   }
+
+  html {
+    @apply scroll-smooth;
+  }
+
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    font-feature-settings: 'rlig' 1, 'calt' 1;
+    @apply bg-white text-gray-900 font-sans antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
+
   h1, h2, h3, h4, h5, h6 {
-    @apply font-editorial tracking-tight;
+    @apply font-sans font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-5xl md:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl;
   }
 }
 
-/* Scrollbar styling para sentirse premium */
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 bg-amber-400 text-gray-900 rounded-full font-semibold hover:bg-amber-500 transition-colors duration-200 active:bg-amber-600;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 border-2 border-amber-400 text-amber-400 rounded-full font-semibold hover:bg-amber-50 transition-colors duration-200;
+  }
+
+  .card-base {
+    @apply bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300;
+  }
+
+  .input-base {
+    @apply w-full px-4 py-3 border border-gray-200 rounded-lg focus:border-amber-400 focus:ring-2 focus:ring-amber-100 focus:outline-none transition-colors duration-200;
+  }
+}
+
+/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: hsl(var(--background));
+  background: #f3f4f6;
 }
+
 ::-webkit-scrollbar-thumb {
-  background: hsl(var(--muted));
+  background: #d1d5db;
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(var(--accent));
+  background: #fbbf24;
 }
