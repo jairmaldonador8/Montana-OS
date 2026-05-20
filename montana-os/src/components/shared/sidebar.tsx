@@ -32,6 +32,7 @@ const navByRole: Record<Role, Array<{ href: string; label: string; icon: any }>>
     { href: '/comisiones', label: 'Comisiones', icon: DollarSign },
   ],
   admin: [
+    { href: '/dashboard/admin', label: 'Dashboard', icon: BarChart3 },
     { href: '/propiedades', label: 'Propiedades', icon: Building2 },
     { href: '/revision', label: 'Cola de revisión', icon: ClipboardCheck },
     { href: '/leads', label: 'Leads', icon: MessageSquare },
