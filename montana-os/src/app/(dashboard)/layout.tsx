@@ -24,11 +24,13 @@ export default async function DashboardLayout({
   };
 
   return (
-    <div className="min-h-screen flex">
-      <Sidebar role={profile.role as 'admin' | 'broker' | 'publisher' | 'agent'} />
-      <div className="flex-1 flex flex-col">
-        <Topbar profile={profile as any} />
-        <main className="flex-1 p-6 lg:p-10">{children}</main>
+    <div className="min-h-screen flex flex-col">
+      <Topbar profile={profile as any} />
+      <div className="flex flex-1">
+        <Sidebar role={profile.role as 'admin' | 'broker' | 'publisher' | 'agent'} />
+        <main className="flex-1 overflow-auto">
+          <div className="p-6 lg:p-10">{children}</div>
+        </main>
       </div>
     </div>
   );

@@ -53,7 +53,7 @@ export function Sidebar({ role }: { role: Role }) {
   const items = navByRole[role] ?? [];
 
   return (
-    <aside className="hidden lg:flex w-64 flex-col border-r border-border bg-card">
+    <aside className="hidden md:flex w-64 flex-col border-r border-border bg-card">
       <div className="p-6 border-b border-border">
         <p className="text-[10px] uppercase tracking-[0.3em] text-montana-gold">
           Montana
