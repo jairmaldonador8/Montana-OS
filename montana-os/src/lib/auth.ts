@@ -13,6 +13,8 @@ export async function getCurrentUser() {
     .eq('id', user.id)
     .single();
 
+  if (!profile) return null;
+
   return { ...user, profile };
 }
 

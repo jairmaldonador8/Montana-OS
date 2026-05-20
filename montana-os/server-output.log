@@ -47,3 +47,14 @@
  GET /specs/crm-redesign 200 in 881ms
  ✓ Compiled in 1738ms (1498 modules)
  ✓ Compiled in 862ms (1498 modules)
+ ⨯ ./src/app/layout.tsx:8:1
+Module not found: Can't resolve '@supabase/auth-helpers-react'
+[0m [90m  6 |[39m [36mimport[39m { cn } [36mfrom[39m [32m"@/lib/utils"[39m[33m;[39m[0m
+[0m [90m  7 |[39m [36mimport[39m { [33mThemeProvider[39m } [36mfrom[39m [32m'@/context/ThemeContext'[39m[33m;[39m[0m
+[0m[31m[1m>[22m[39m[90m  8 |[39m [36mimport[39m { [33mSessionProvider[39m } [36mfrom[39m [32m'@supabase/auth-helpers-react'[39m[33m;[39m[0m
+[0m [90m    |[39m [31m[1m^[22m[39m[0m
+[0m [90m  9 |[39m [36mimport[39m { createClientComponentClient } [36mfrom[39m [32m'@supabase/auth-helpers-nextjs'[39m[33m;[39m[0m
+[0m [90m 10 |[39m[0m
+[0m [90m 11 |[39m [36mconst[39m poppins [33m=[39m [33mPoppins[39m({subsets[33m:[39m[[32m'latin'[39m][33m,[39mweight[33m:[39m[[32m'400'[39m[33m,[39m[32m'500'[39m[33m,[39m[32m'600'[39m[33m,[39m[32m'700'[39m][33m,[39mvariable[33m:[39m[32m'--font-sans'[39m})[33m;[39m[0m
+
+https://nextjs.org/docs/messages/module-not-found

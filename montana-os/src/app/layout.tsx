@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from '@/context/ThemeContext';
 import { SessionProvider } from '@supabase/auth-helpers-react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import type { Database } from '@/types/database';
 
 const poppins = Poppins({subsets:['latin'],weight:['400','500','600','700'],variable:'--font-sans'});
 
@@ -28,7 +29,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createClientComponentClient();
+  const supabase = createClientComponentClient<Database>();
 
   return (
     <html lang="es" className={cn(inter.variable, cormorant.variable, "font-sans", poppins.variable)}>
