@@ -28,7 +28,10 @@ export async function getPipelineAnalytics(): Promise<PipelineAnalytics> {
   let closed_count = 0;
 
   leads?.forEach((lead: any) => {
-    leads_by_status[lead.status]++;
+    const status = lead.status as LeadStatus;
+    if (status in leads_by_status) {
+      leads_by_status[status]++;
+    }
 
     if (lead.status === 'cerrado') {
       closed_count++;

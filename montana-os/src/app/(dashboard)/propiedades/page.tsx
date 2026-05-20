@@ -98,7 +98,14 @@ export default function PropiedadesPage() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {properties.map((property) => (
-            <PropertyCard key={property.id} {...property} />
+            <PropertyCard
+              key={property.id}
+              id={property.id}
+              title={property.code}
+              location={property.neighborhood}
+              price={`$${(property.price / 1000000).toFixed(1)}M`}
+              address={property.address}
+            />
           ))}
         </div>
       )}

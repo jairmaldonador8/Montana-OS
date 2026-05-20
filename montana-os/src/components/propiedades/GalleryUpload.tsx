@@ -125,21 +125,10 @@ export function GalleryUpload({ propertyId, onComplete }: GalleryUploadProps) {
       const fileName = uploadFile.file.name;
       const filePath = `${propertyId}/${timestamp}-${fileName}`;
 
-      // Upload to Supabase Storage with progress tracking
+      // Upload to Supabase Storage
       const { data, error } = await supabase.storage
         .from('properties')
-        .upload(filePath, uploadFile.file, {
-          onUploadProgress: (progress: any) => {
-            const percentComplete = Math.round(
-              (progress.loaded / progress.total) * 100
-            );
-            setUploads((prev) =>
-              prev.map((f) =>
-                f.id === uploadFile.id ? { ...f, progress: percentComplete } : f
-              )
-            );
-          },
-        });
+        .upload(filePath, uploadFile.file);
 
       if (error) {
         throw error;

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // ============ STEP 1: DATOS BÁSICOS ============
-let step1Schema = z.object({
+const step1BaseSchema = z.object({
   type: z.enum([
     'casa',
     'departamento',
@@ -23,7 +23,7 @@ let step1Schema = z.object({
 });
 
 // Add cross-field validation for rentalPrice requirement
-step1Schema = step1Schema.superRefine(({ operation, rentalPrice }, ctx) => {
+export const step1Schema = step1BaseSchema.superRefine(({ operation, rentalPrice }, ctx) => {
   if ((operation === 'renta' || operation === 'venta_o_renta') && !rentalPrice) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
@@ -32,8 +32,6 @@ step1Schema = step1Schema.superRefine(({ operation, rentalPrice }, ctx) => {
     });
   }
 });
-
-export { step1Schema };
 
 export type Step1Input = z.infer<typeof step1Schema>;
 
@@ -57,7 +55,7 @@ export const step2Schema = z.object({
 export type Step2Input = z.infer<typeof step2Schema>;
 
 // ============ STEP 3: CARACTERÍSTICAS ============
-let step3Schema = z.object({
+const step3BaseSchema = z.object({
   bedrooms: z
     .number()
     .nonnegative(
@@ -78,7 +76,7 @@ let step3Schema = z.object({
 });
 
 // Add cross-field validation for m2Land >= m2Built
-step3Schema = step3Schema.superRefine(({ m2Land, m2Built }, ctx) => {
+export const step3Schema = step3BaseSchema.superRefine(({ m2Land, m2Built }, ctx) => {
   if (m2Land !== undefined && m2Land < m2Built) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
@@ -87,8 +85,6 @@ step3Schema = step3Schema.superRefine(({ m2Land, m2Built }, ctx) => {
     });
   }
 });
-
-export { step3Schema };
 
 export type Step3Input = z.infer<typeof step3Schema>;
 

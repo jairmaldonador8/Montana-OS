@@ -1,0 +1,25 @@
+
+> montana-os@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.18
+
+   Creating an optimized production build ...
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (101kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+<w> [webpack.cache.PackFileCacheStrategy] Serializing big strings (231kiB) impacts deserialization performance (consider using Buffer instead and decode when needed)
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+Failed to compile.
+
+./src/app/(dashboard)/propiedades/page.tsx:101:14
+Type error: Type '{ id: string; code: string; type: string; operation: string; price: number; address: string; neighborhood: string; status: string; key: string; }' is not assignable to type 'PropertyCardProps'.
+  Types of property 'price' are incompatible.
+    Type 'number' is not assignable to type 'string'.
+
+[0m [90m  99 |[39m         [33m<[39m[33mdiv[39m className[33m=[39m[32m"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"[39m[33m>[39m[0m
+[0m [90m 100 |[39m           {properties[33m.[39mmap((property) [33m=>[39m ([0m
+[0m[31m[1m>[22m[39m[90m 101 |[39m             [33m<[39m[33mPropertyCard[39m key[33m=[39m{property[33m.[39mid} {[33m...[39mproperty} [33m/[39m[33m>[39m[0m
+[0m [90m     |[39m              [31m[1m^[22m[39m[0m
+[0m [90m 102 |[39m           ))}[0m
+[0m [90m 103 |[39m         [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m[0m
+[0m [90m 104 |[39m       )}[0m
