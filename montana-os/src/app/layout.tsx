@@ -1,3 +1,5 @@
+'use client';
+
 import type { Metadata } from 'next';
 import { Inter, Cormorant_Garamond, Poppins } from 'next/font/google';
 import './globals.css';
@@ -18,14 +20,6 @@ const cormorant = Cormorant_Garamond({
   variable: '--font-cormorant',
   display: 'swap',
 });
-
-export const metadata: Metadata = {
-  title: 'Montana OS',
-  description: 'Sistema operativo de Montana Realty Co.',
-  icons: {
-    icon: '/favicon.ico',
-  },
-};
 
 export default function RootLayout({
   children,
