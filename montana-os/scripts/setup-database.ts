@@ -60,32 +60,24 @@ async function setupDatabase() {
       console.log('✅ propiedades table created/verified');
     }
 
-    // Create usuarios table (sync with auth.users)
-    console.log('⏳ Creating usuarios table...');
-    const createUsuariosSQL = `
-      CREATE TABLE IF NOT EXISTS usuarios (
-        id UUID PRIMARY KEY REFERENCES auth.users(id),
-        email TEXT,
-        rol TEXT DEFAULT 'agent',
-        created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
-        updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
-      );
-    `;
+    // Create users table (Phase 1.1 schema)
+    console.log('⏳ Creating users table...');
 
-    // For now, just create the usuario record for the current user
-    const { error: usuarioError } = await supabase
-      .from('usuarios')
+    // For now, just create the user record for the current user
+    const { error: userError } = await supabase
+      .from('users')
       .upsert({
         id: userId,
         email: userEmail,
-        rol: 'admin'
+        role: 'admin',
+        nombre: userEmail.split('@')[0]
       }, { onConflict: 'id' });
 
-    if (usuarioError) {
-      console.log('⚠️  Could not create usuarios table - may already exist');
-      console.log(`   Error: ${usuarioError.message}`);
+    if (userError) {
+      console.log('⚠️  Could not create users table entry - may already exist');
+      console.log(`   Error: ${userError.message}`);
     } else {
-      console.log('✅ usuarios table created/verified');
+      console.log('✅ users table created/verified');
     }
 
     // Create leads table

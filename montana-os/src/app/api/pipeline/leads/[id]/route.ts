@@ -96,14 +96,14 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Check if user is admin (optional: verify against user role table)
+    // Check if user is admin (verify against users table)
     const { data: userData } = await supabase
-      .from('usuarios')
-      .select('rol')
+      .from('users')
+      .select('role')
       .eq('id', user.id)
       .single();
 
-    if (userData?.rol !== 'admin') {
+    if (userData?.role !== 'admin') {
       return NextResponse.json(
         { error: 'Admin access required' },
         { status: 403 }

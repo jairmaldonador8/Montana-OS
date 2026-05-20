@@ -58,7 +58,7 @@ export async function getPipelineAnalytics(): Promise<PipelineAnalytics> {
   // Get top agents (by closes)
   const { data: top_agents, error: agentsError } = await supabase
     .from('leads')
-    .select('assigned_to, usuarios(nombre), property_id, propiedades(precio)')
+    .select('assigned_to, users(nombre), property_id, propiedades(precio)')
     .eq('status', 'cerrado')
     .limit(100);
 
@@ -68,7 +68,7 @@ export async function getPipelineAnalytics(): Promise<PipelineAnalytics> {
     const agent_id = lead.assigned_to;
     if (!agent_map[agent_id]) {
       agent_map[agent_id] = {
-        nombre: lead.usuarios?.nombre || 'Unknown',
+        nombre: lead.users?.nombre || 'Unknown',
         closes: 0,
         revenue: 0,
       };
