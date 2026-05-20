@@ -1,9 +1,12 @@
-import { createServerClient } from '@supabase/ssr';
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
+  const response = NextResponse.next({ request });
+  const supabase = createMiddlewareClient({ req: request, res: response });
+
   // Demo mode: allow all routes without authentication
-  return NextResponse.next({ request });
+  return response;
 }
 
 export const config = {
