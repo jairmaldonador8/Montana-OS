@@ -1,15 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
+import { createServerClient } from '@supabase/ssr';
 
 export async function middleware(request: NextRequest) {
-  const response = NextResponse.next();
-  const supabase = createMiddlewareClient({ req: request, res: response });
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  });
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet: any[]) {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options)
+          );
+        },
+      },
+    }
+  );
 
   const { data: { session } } = await supabase.auth.getSession();
   const pathname = request.nextUrl.pathname;
 
   // Allow login and auth routes without session
   if (pathname.startsWith('/login') || pathname.startsWith('/auth')) {
+    return response;
+  }
+
+  // Allow /api/leads/create without session (public endpoint)
+  if (pathname === '/api/leads/create') {
     return response;
   }
 
