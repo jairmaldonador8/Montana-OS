@@ -11,3 +11,37 @@
  ✓ Compiled /src/middleware in 455ms (72 modules)
  ○ Compiling / ...
  ✓ Compiled / in 6.8s (1450 modules)
+ GET / 200 in 7237ms
+ ✓ Compiled in 526ms (722 modules)
+ ○ Compiling /dashboard/propiedades ...
+ ✓ Compiled /dashboard/propiedades in 5.3s (1439 modules)
+ GET /dashboard/propiedades 200 in 5462ms
+ ✓ Compiled /dashboard/citas in 381ms (1451 modules)
+ GET /dashboard/citas 200 in 510ms
+ ✓ Compiled /dashboard/mapas in 374ms (1459 modules)
+ GET /dashboard/mapas 200 in 481ms
+ ✓ Compiled /dashboard/mensajes in 469ms (1469 modules)
+ GET /dashboard/mensajes 200 in 555ms
+ ✓ Compiled /dashboard/reportes in 459ms (1479 modules)
+ GET /dashboard/reportes 200 in 541ms
+ GET / 200 in 88ms
+ GET /dashboard/propiedades 200 in 81ms
+ GET /dashboard/citas 200 in 79ms
+ GET /dashboard/mapas 200 in 42ms
+ GET /dashboard/mensajes 200 in 76ms
+ GET /dashboard/reportes 200 in 93ms
+ GET /dashboard/propiedades 200 in 45ms
+ GET / 200 in 53ms
+ ○ Compiling /dashboard/leads ...
+ ✓ Compiled /dashboard/leads in 655ms (1479 modules)
+ ○ Compiling /dashboard/pipeline ...
+ ✓ Compiled /dashboard/pipeline in 636ms (1487 modules)
+ ○ Compiling /dashboard/comisiones ...
+ ✓ Compiled /dashboard/comisiones in 514ms (1495 modules)
+ ✓ Compiled /dashboard/mensajes in 249ms (754 modules)
+ ✓ Compiled /dashboard/reportes in 440ms (760 modules)
+ GET /dashboard/propiedades 200 in 213ms
+ ✓ Compiled in 1452ms (1568 modules)
+ ○ Compiling /specs/crm-redesign ...
+ ✓ Compiled /specs/crm-redesign in 666ms (1492 modules)
+ GET /specs/crm-redesign 200 in 881ms

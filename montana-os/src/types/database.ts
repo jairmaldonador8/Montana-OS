@@ -57,7 +57,7 @@ export type Database = {
           financiamiento: string | null;
           etapa: 'Nuevo' | 'Primer Contacto' | 'Calificado' | 'Presentación Programada' | 'Viendo Propiedad' | 'Negociación' | 'Cierre';
           asesor_id: string;
-          temperatura: string;
+          temperatura: 'Frio' | 'Warm' | 'Caliente';
           fuente_lead: 'manual' | 'web_form' | 'csv_import';
           proxima_accion: string | null;
           fecha_proxima_accion: string | null;
@@ -84,7 +84,7 @@ export type Database = {
           financiamiento?: string | null;
           etapa?: 'Nuevo' | 'Primer Contacto' | 'Calificado' | 'Presentación Programada' | 'Viendo Propiedad' | 'Negociación' | 'Cierre';
           asesor_id: string;
-          temperatura?: string;
+          temperatura?: 'Frio' | 'Warm' | 'Caliente';
           fuente_lead: 'manual' | 'web_form' | 'csv_import';
           proxima_accion?: string | null;
           fecha_proxima_accion?: string | null;
@@ -111,7 +111,7 @@ export type Database = {
           financiamiento?: string | null;
           etapa?: 'Nuevo' | 'Primer Contacto' | 'Calificado' | 'Presentación Programada' | 'Viendo Propiedad' | 'Negociación' | 'Cierre';
           asesor_id?: string;
-          temperatura?: string;
+          temperatura?: 'Frio' | 'Warm' | 'Caliente';
           fuente_lead?: 'manual' | 'web_form' | 'csv_import';
           proxima_accion?: string | null;
           fecha_proxima_accion?: string | null;
@@ -205,7 +205,6 @@ export type Database = {
         Row: {
           id: string;
           lead_id: string;
-          property_id: string | null;
           monto: number;
           condiciones: string | null;
           status: 'pending' | 'accepted' | 'rejected' | 'counter';
@@ -217,7 +216,6 @@ export type Database = {
         Insert: {
           id?: string;
           lead_id: string;
-          property_id?: string | null;
           monto: number;
           condiciones?: string | null;
           status?: 'pending' | 'accepted' | 'rejected' | 'counter';
@@ -229,7 +227,6 @@ export type Database = {
         Update: {
           id?: string;
           lead_id?: string;
-          property_id?: string | null;
           monto?: number;
           condiciones?: string | null;
           status?: 'pending' | 'accepted' | 'rejected' | 'counter';

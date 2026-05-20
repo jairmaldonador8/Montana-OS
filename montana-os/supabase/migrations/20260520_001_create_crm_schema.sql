@@ -62,8 +62,8 @@ CREATE TABLE IF NOT EXISTS public.leads (
     'Nuevo', 'Primer Contacto', 'Calificado', 'Presentación Programada',
     'Viendo Propiedad', 'Negociación', 'Cierre'
   )),
-  asesor_id UUID NOT NULL REFERENCES public.users(id) ON DELETE SET NULL,
-  temperatura TEXT DEFAULT 'Warm',
+  asesor_id UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+  temperatura TEXT DEFAULT 'Warm' CHECK (temperatura IN ('Frio', 'Warm', 'Caliente')),
   fuente_lead TEXT NOT NULL CHECK (fuente_lead IN ('manual', 'web_form', 'csv_import')),
   proxima_accion TEXT,
   fecha_proxima_accion TIMESTAMP,
@@ -206,7 +206,6 @@ CREATE POLICY "Admin and coordinador can view all messages"
 CREATE TABLE IF NOT EXISTS public.offers (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   lead_id UUID NOT NULL REFERENCES public.leads(id) ON DELETE CASCADE,
-  property_id UUID,
   monto NUMERIC NOT NULL,
   condiciones TEXT,
   status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'accepted', 'rejected', 'counter')),
