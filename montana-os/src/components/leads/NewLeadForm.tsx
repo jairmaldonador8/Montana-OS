@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { LeadCreationSchema } from '@/lib/validation';
 import type { Lead } from '@/lib/validation';
 
@@ -18,7 +18,15 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
-  const handleChange = (field: keyof Lead, value: any) => {
+  // Cleanup timer for success message
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => setSuccessMessage(''), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
+
+  const handleChange = (field: keyof Lead, value: string | number | undefined) => {
     setFormData(prev => ({ ...prev, [field]: value || undefined }));
     // Clear error for this field when user starts typing
     setErrors(prev => ({ ...prev, [field]: '' }));
@@ -68,9 +76,6 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
       setSuccessMessage('Lead creado exitosamente');
       setFormData({ fuente: 'manual', tipo_propiedad: 'Casa' });
       onSuccess?.(result.id);
-
-      // Clear success message after 3 seconds
-      setTimeout(() => setSuccessMessage(''), 3000);
     } catch (error) {
       if (error instanceof Error) {
         setErrors({ submit: error.message });
@@ -97,14 +102,14 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
 
       {/* Success Message */}
       {successMessage && (
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+        <div className="bg-green-50 border border-green-200 rounded-lg p-4" role="alert" aria-live="polite">
           <p className="text-green-800">{successMessage}</p>
         </div>
       )}
 
       {/* Submit Error */}
       {errors.submit && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4" role="alert" aria-live="polite">
           <p className="text-red-800">{errors.submit}</p>
         </div>
       )}
@@ -121,14 +126,17 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
           <input
             id="nombre"
             type="text"
+            disabled={loading}
             value={formData.nombre || ''}
             onChange={(e) => handleChange('nombre', e.target.value)}
             placeholder="Juan García López"
-            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none ${
+            aria-invalid={!!errors.nombre}
+            aria-describedby={errors.nombre ? 'nombre-error' : undefined}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed ${
               errors.nombre ? 'border-red-500' : 'border-gray-300'
             }`}
           />
-          {errors.nombre && <p className="text-red-600 text-sm mt-1">{errors.nombre}</p>}
+          {errors.nombre && <p id="nombre-error" className="text-red-600 text-sm mt-1">{errors.nombre}</p>}
         </div>
 
         {/* Email */}
@@ -139,14 +147,17 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
           <input
             id="email"
             type="email"
+            disabled={loading}
             value={formData.email || ''}
             onChange={(e) => handleChange('email', e.target.value)}
             placeholder="juan@example.com"
-            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none ${
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? 'email-error' : undefined}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed ${
               errors.email ? 'border-red-500' : 'border-gray-300'
             }`}
           />
-          {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
+          {errors.email && <p id="email-error" className="text-red-600 text-sm mt-1">{errors.email}</p>}
         </div>
 
         {/* Teléfono */}
@@ -158,14 +169,17 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
             <input
               id="telefono"
               type="tel"
+              disabled={loading}
               value={formData.telefono || ''}
               onChange={(e) => handleChange('telefono', e.target.value)}
               placeholder="1234567890"
-              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none ${
+              aria-invalid={!!errors.telefono}
+              aria-describedby={errors.telefono ? 'telefono-error' : undefined}
+              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed ${
                 errors.telefono ? 'border-red-500' : 'border-gray-300'
               }`}
             />
-            {errors.telefono && <p className="text-red-600 text-sm mt-1">{errors.telefono}</p>}
+            {errors.telefono && <p id="telefono-error" className="text-red-600 text-sm mt-1">{errors.telefono}</p>}
           </div>
 
           {/* WhatsApp */}
@@ -176,11 +190,17 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
             <input
               id="whatsapp"
               type="tel"
+              disabled={loading}
               value={formData.whatsapp || ''}
               onChange={(e) => handleChange('whatsapp', e.target.value)}
               placeholder="1234567890"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
+              aria-invalid={!!errors.whatsapp}
+              aria-describedby={errors.whatsapp ? 'whatsapp-error' : undefined}
+              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed ${
+                errors.whatsapp ? 'border-red-500' : 'border-gray-300'
+              }`}
             />
+            {errors.whatsapp && <p id="whatsapp-error" className="text-red-600 text-sm mt-1">{errors.whatsapp}</p>}
           </div>
         </div>
       </fieldset>
@@ -196,16 +216,21 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
           </label>
           <select
             id="tipo"
+            disabled={loading}
             value={formData.tipo_propiedad || 'Casa'}
             onChange={(e) => handleChange('tipo_propiedad', e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
+            aria-invalid={!!errors.tipo_propiedad}
+            aria-describedby={errors.tipo_propiedad ? 'tipo-error' : undefined}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed ${
+              errors.tipo_propiedad ? 'border-red-500' : 'border-gray-300'
+            }`}
           >
             <option value="Casa">Casa</option>
             <option value="Departamento">Departamento</option>
             <option value="Terreno">Terreno</option>
             <option value="Comercial">Comercial</option>
           </select>
-          {errors.tipo_propiedad && <p className="text-red-600 text-sm mt-1">{errors.tipo_propiedad}</p>}
+          {errors.tipo_propiedad && <p id="tipo-error" className="text-red-600 text-sm mt-1">{errors.tipo_propiedad}</p>}
         </div>
 
         {/* Zona */}
@@ -216,11 +241,17 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
           <input
             id="zona"
             type="text"
+            disabled={loading}
             value={formData.zona || ''}
             onChange={(e) => handleChange('zona', e.target.value)}
             placeholder="Centro, Norte, Sur..."
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
+            aria-invalid={!!errors.zona}
+            aria-describedby={errors.zona ? 'zona-error' : undefined}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed ${
+              errors.zona ? 'border-red-500' : 'border-gray-300'
+            }`}
           />
+          {errors.zona && <p id="zona-error" className="text-red-600 text-sm mt-1">{errors.zona}</p>}
         </div>
 
         {/* Budget Range */}
@@ -232,12 +263,17 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
             <input
               id="presupuesto_min"
               type="number"
+              disabled={loading}
               value={formData.presupuesto_min || ''}
               onChange={(e) => handleChange('presupuesto_min', e.target.value ? Number(e.target.value) : undefined)}
               placeholder="100000"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
+              aria-invalid={!!errors.presupuesto_min}
+              aria-describedby={errors.presupuesto_min ? 'presupuesto_min-error' : undefined}
+              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed ${
+                errors.presupuesto_min ? 'border-red-500' : 'border-gray-300'
+              }`}
             />
-            {errors.presupuesto_min && <p className="text-red-600 text-sm mt-1">{errors.presupuesto_min}</p>}
+            {errors.presupuesto_min && <p id="presupuesto_min-error" className="text-red-600 text-sm mt-1">{errors.presupuesto_min}</p>}
           </div>
 
           <div>
@@ -247,12 +283,17 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
             <input
               id="presupuesto_max"
               type="number"
+              disabled={loading}
               value={formData.presupuesto_max || ''}
               onChange={(e) => handleChange('presupuesto_max', e.target.value ? Number(e.target.value) : undefined)}
               placeholder="500000"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
+              aria-invalid={!!errors.presupuesto_max}
+              aria-describedby={errors.presupuesto_max ? 'presupuesto_max-error' : undefined}
+              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed ${
+                errors.presupuesto_max ? 'border-red-500' : 'border-gray-300'
+              }`}
             />
-            {errors.presupuesto_max && <p className="text-red-600 text-sm mt-1">{errors.presupuesto_max}</p>}
+            {errors.presupuesto_max && <p id="presupuesto_max-error" className="text-red-600 text-sm mt-1">{errors.presupuesto_max}</p>}
           </div>
         </div>
 
@@ -263,9 +304,14 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
           </label>
           <select
             id="timeline"
+            disabled={loading}
             value={formData.timeline || ''}
             onChange={(e) => handleChange('timeline', e.target.value || undefined)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
+            aria-invalid={!!errors.timeline}
+            aria-describedby={errors.timeline ? 'timeline-error' : undefined}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed ${
+              errors.timeline ? 'border-red-500' : 'border-gray-300'
+            }`}
           >
             <option value="">Selecciona un plazo</option>
             <option value="Hoy">Hoy</option>
@@ -273,6 +319,7 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
             <option value="Este año">Este año</option>
             <option value="Sin prisa">Sin prisa</option>
           </select>
+          {errors.timeline && <p id="timeline-error" className="text-red-600 text-sm mt-1">{errors.timeline}</p>}
         </div>
       </fieldset>
 
@@ -288,11 +335,17 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
           <input
             id="recamaras"
             type="number"
+            disabled={loading}
             value={formData.recamaras || ''}
             onChange={(e) => handleChange('recamaras', e.target.value ? Number(e.target.value) : undefined)}
             placeholder="3"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
+            aria-invalid={!!errors.recamaras}
+            aria-describedby={errors.recamaras ? 'recamaras-error' : undefined}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed ${
+              errors.recamaras ? 'border-red-500' : 'border-gray-300'
+            }`}
           />
+          {errors.recamaras && <p id="recamaras-error" className="text-red-600 text-sm mt-1">{errors.recamaras}</p>}
         </div>
 
         {/* Baños */}
@@ -303,11 +356,17 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
           <input
             id="banos"
             type="number"
+            disabled={loading}
             value={formData.banos || ''}
             onChange={(e) => handleChange('banos', e.target.value ? Number(e.target.value) : undefined)}
             placeholder="2"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
+            aria-invalid={!!errors.banos}
+            aria-describedby={errors.banos ? 'banos-error' : undefined}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed ${
+              errors.banos ? 'border-red-500' : 'border-gray-300'
+            }`}
           />
+          {errors.banos && <p id="banos-error" className="text-red-600 text-sm mt-1">{errors.banos}</p>}
         </div>
 
         {/* Financiamiento */}
@@ -317,15 +376,21 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
           </label>
           <select
             id="financiamiento"
+            disabled={loading}
             value={formData.financiamiento || ''}
             onChange={(e) => handleChange('financiamiento', e.target.value || undefined)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
+            aria-invalid={!!errors.financiamiento}
+            aria-describedby={errors.financiamiento ? 'financiamiento-error' : undefined}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed ${
+              errors.financiamiento ? 'border-red-500' : 'border-gray-300'
+            }`}
           >
             <option value="">Selecciona un tipo</option>
             <option value="Contado">Contado</option>
             <option value="Crédito">Crédito</option>
             <option value="Por definir">Por definir</option>
           </select>
+          {errors.financiamiento && <p id="financiamiento-error" className="text-red-600 text-sm mt-1">{errors.financiamiento}</p>}
         </div>
 
         {/* Ubicación Actual */}
@@ -336,11 +401,17 @@ export function NewLeadForm({ onSuccess, onError }: NewLeadFormProps) {
           <input
             id="ubicacion_actual"
             type="text"
+            disabled={loading}
             value={formData.ubicacion_actual || ''}
             onChange={(e) => handleChange('ubicacion_actual', e.target.value)}
             placeholder="Ciudad o colonia actual"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none"
+            aria-invalid={!!errors.ubicacion_actual}
+            aria-describedby={errors.ubicacion_actual ? 'ubicacion_actual-error' : undefined}
+            className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-yellow-400 outline-none disabled:bg-gray-100 disabled:cursor-not-allowed ${
+              errors.ubicacion_actual ? 'border-red-500' : 'border-gray-300'
+            }`}
           />
+          {errors.ubicacion_actual && <p id="ubicacion_actual-error" className="text-red-600 text-sm mt-1">{errors.ubicacion_actual}</p>}
         </div>
       </fieldset>
 
