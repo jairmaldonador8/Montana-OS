@@ -15,10 +15,17 @@ export default async function DashboardLayout({
 
   if (!user) redirect('/login');
 
+  // Fetch user role from database
+  const { data: userRole } = await supabase
+    .from('users')
+    .select('role')
+    .eq('id', user.id)
+    .single();
+
   const profile = {
     id: user.id,
     email: user.email || 'usuario@montana.com',
-    role: 'admin' as const,
+    role: (userRole?.role || 'asesor') as const,
     name: user.user_metadata?.full_name || 'Usuario Test',
     avatar_url: null,
   };
