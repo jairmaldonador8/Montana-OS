@@ -18,14 +18,14 @@ export default async function DashboardLayout({
   const profile = {
     id: user.id,
     email: user.email || 'usuario@montana.com',
-    role: 'admin',
+    role: 'admin' as const,
     name: user.user_metadata?.full_name || 'Usuario Test',
     avatar_url: null,
   };
 
   return (
     <div className="min-h-screen flex">
-      <Sidebar role={profile.role} />
+      <Sidebar role={profile.role as 'admin' | 'broker' | 'publisher' | 'agent'} />
       <div className="flex-1 flex flex-col">
         <Topbar profile={profile as any} />
         <main className="flex-1 p-6 lg:p-10">{children}</main>

@@ -44,9 +44,13 @@ async function setupDatabase() {
       );
     `;
 
-    const { error: propError } = await supabase.rpc('eval_sql', { sql: createPropiedadesSQL }).catch(() => ({
-      error: { message: 'RPC not available - will create via direct insert' }
-    }));
+    let propError;
+    try {
+      const result = await supabase.rpc('eval_sql', { sql: createPropiedadesSQL });
+      propError = result.error;
+    } catch {
+      propError = { message: 'RPC not available - will create via direct insert' };
+    }
 
     if (propError?.message.includes('RPC')) {
       console.log('   ⚠️  Direct RPC execution not available');
@@ -86,12 +90,16 @@ async function setupDatabase() {
 
     // Create leads table
     console.log('⏳ Creating leads table...');
-    const { error: leadsError } = await supabase
-      .from('leads')
-      .select('*')
-      .limit(1)
-      .then(() => ({ error: null }))
-      .catch(err => ({ error: err }));
+    let leadsError;
+    try {
+      await supabase
+        .from('leads')
+        .select('*')
+        .limit(1);
+      leadsError = null;
+    } catch (err) {
+      leadsError = err;
+    }
 
     if (leadsError) {
       console.log('⚠️  leads table not found - table creation required');

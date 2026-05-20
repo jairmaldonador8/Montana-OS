@@ -97,7 +97,13 @@ export async function POST(req: Request) {
     // Execute each statement
     const results = [];
     for (const sql of sqlStatements) {
-      const { error } = await supabase.rpc('exec', { query: sql }).catch(() => ({ error: null }));
+      let error = null;
+      try {
+        const result = await supabase.rpc('exec', { query: sql });
+        error = result.error;
+      } catch {
+        error = null;
+      }
       results.push({
         sql: sql.substring(0, 50) + '...',
         error
