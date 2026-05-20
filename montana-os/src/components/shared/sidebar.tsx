@@ -17,19 +17,14 @@ import {
 } from 'lucide-react';
 
 const navByRole: Record<Role, Array<{ href: string; label: string; icon: any }>> = {
-  agent: [
+  asesor: [
     { href: '/propiedades', label: 'Mis propiedades', icon: Building2 },
     { href: '/propiedades/nueva', label: 'Nueva propiedad', icon: Home },
     { href: '/leads', label: 'Mis leads', icon: MessageSquare },
     { href: '/pipeline', label: 'Mi pipeline', icon: Trello },
     { href: '/comisiones', label: 'Mis comisiones', icon: DollarSign },
   ],
-  publisher: [
-    { href: '/revision', label: 'Cola de revisión', icon: ClipboardCheck },
-    { href: '/propiedades', label: 'Propiedades publicadas', icon: Building2 },
-    { href: '/leads', label: 'Inbox', icon: MessageSquare },
-  ],
-  broker: [
+  coordinador: [
     { href: '/propiedades', label: 'Propiedades', icon: Building2 },
     { href: '/revision', label: 'Cola de revisión', icon: ClipboardCheck },
     { href: '/leads', label: 'Leads', icon: MessageSquare },

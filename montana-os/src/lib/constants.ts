@@ -97,12 +97,11 @@ export const LEGAL_STATUS = [
   { id: 'libre_gravamen', label: 'Libre de gravamen' },
 ] as const;
 
-// Roles del sistema
+// Roles del sistema (aligned with Phase 1.1 database schema)
 export const ROLES = {
   admin: 'Administrador',
-  broker: 'Broker',
-  publisher: 'Asistente · Publisher',
-  agent: 'Asesor',
+  asesor: 'Asesor',
+  coordinador: 'Coordinador',
 } as const;
 
 export type Role = keyof typeof ROLES;
