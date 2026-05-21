@@ -1,9 +1,16 @@
 'use client';
 
-import { MontanaCard } from '@/components/cards/MontanaCard';
+// import { MontanaCard } from '@/components/cards/MontanaCard';
 import { CheckCircle, Users, Zap, Database } from 'lucide-react';
 
 export default function CRMRedesignSpec() {
+  return (
+    <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+      <p className="text-gray-600">CRM Redesign Specs - En construcción</p>
+    </div>
+  );
+
+  /*
   const sections = [
     {
       title: 'Arquitectura de Roles',
@@ -310,4 +317,5 @@ export default function CRMRedesignSpec() {
       </div>
     </div>
   );
+  */
 }

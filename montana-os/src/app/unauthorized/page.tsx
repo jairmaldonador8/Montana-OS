@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { MontanaButton } from '@/components/buttons/MontanaButton';
+// import { MontanaButton } from '@/components/buttons/MontanaButton';
 
 export default function UnauthorizedPage() {
   return (
@@ -13,7 +13,9 @@ export default function UnauthorizedPage() {
           Verifica tu rol o contacta al administrador
         </p>
         <Link href="/dashboard">
-          <MontanaButton>Volver al Dashboard</MontanaButton>
+          <button className="bg-amber-400 text-gray-900 px-6 py-2 rounded-full font-semibold hover:bg-amber-500">
+            Volver al Dashboard
+          </button>
         </Link>
       </div>
     </div>
