@@ -1,9 +1,22 @@
 'use client';
 
-import { MontanaCard } from '@/components/cards/MontanaCard';
+// import { MontanaCard } from '@/components/cards/MontanaCard';
 import { TrendingUp, Users, DollarSign, CheckCircle } from 'lucide-react';
 
 export default function ReportesPage() {
+  return (
+    <div>
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900">Reportes</h1>
+        <p className="text-gray-600 mt-2">Visualiza tus reportes y estadísticas</p>
+      </div>
+
+      <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+        <p className="text-gray-600">Sección de reportes - En construcción</p>
+      </div>
+    </div>
+  );
+
   const stats = [
     { label: 'Ventas Este Mes', value: '$245,000', icon: DollarSign, color: 'text-emerald-600', change: '+12%' },
     { label: 'Leads Totales', value: '128', icon: Users, color: 'text-blue-600', change: '+8%' },

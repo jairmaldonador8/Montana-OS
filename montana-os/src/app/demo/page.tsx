@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { Navbar } from '@/components/shared/Navbar';
-import { PropertyCard } from '@/components/propiedades/PropertyCard';
-import { MontanaButton } from '@/components/buttons/MontanaButton';
+// import { Navbar } from '@/components/shared/Navbar';
+// import { PropertyCard } from '@/components/propiedades/PropertyCard';
+// import { MontanaButton } from '@/components/buttons/MontanaButton';
 import { Home, Users, TrendingUp, MessageSquare } from 'lucide-react';
 
 export default function DemoPage() {
@@ -25,8 +25,16 @@ export default function DemoPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
+      {/* <Navbar /> */}
 
+      <div className="p-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-4">Demo Page</h1>
+        <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+          <p className="text-gray-600">Página de demo - En construcción</p>
+        </div>
+      </div>
+
+      {/*
       <div className="flex h-[calc(100vh-64px)]">
         {/* Sidebar */}
         <aside className="hidden md:flex w-64 bg-white border-r border-gray-200 flex-col p-6">
