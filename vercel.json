@@ -1,4 +1,5 @@
 {
   "buildCommand": "cd montana-os && npm install --legacy-peer-deps && npm run build",
-  "outputDirectory": "montana-os/.next"
+  "outputDirectory": "montana-os/.next",
+  "env": {}
 }
