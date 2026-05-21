@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Plus, AlertCircle } from 'lucide-react';
-import { PropertyCard } from '@/components/propiedades/PropertyCard';
+// import { PropertyCard } from '@/components/propiedades/PropertyCard';
 
 interface Property {
   id: string;
@@ -96,17 +96,9 @@ export default function PropiedadesPage() {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {properties.map((property) => (
-            <PropertyCard
-              key={property.id}
-              id={property.id}
-              title={property.code}
-              location={property.neighborhood}
-              price={`$${(property.price / 1000000).toFixed(1)}M`}
-              address={property.address}
-            />
-          ))}
+        <div className="border border-border rounded-md p-12 text-center">
+          <p className="font-editorial text-2xl mb-3">Propiedades</p>
+          <p className="text-sm text-muted-foreground">Sección en construcción</p>
         </div>
       )}
     </div>

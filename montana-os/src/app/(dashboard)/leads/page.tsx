@@ -1,16 +1,8 @@
 'use client';
 
-import { NewLeadForm } from '@/components/leads/NewLeadForm';
+// import { NewLeadForm } from '@/components/leads/NewLeadForm';
 
 export default function LeadsPage() {
-  const handleLeadSuccess = (leadId: string) => {
-    console.log('Lead created with ID:', leadId);
-  };
-
-  const handleLeadError = (error: string) => {
-    console.error('Lead creation error:', error);
-  };
-
   return (
     <div className="space-y-8">
       <div>
@@ -22,10 +14,9 @@ export default function LeadsPage() {
           Crea nuevos leads y gestiona los interesados en propiedades.
         </p>
       </div>
-      <NewLeadForm
-        onSuccess={handleLeadSuccess}
-        onError={handleLeadError}
-      />
+      <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+        <p className="text-gray-600">Formulario de leads - En construcción</p>
+      </div>
     </div>
   );
 }

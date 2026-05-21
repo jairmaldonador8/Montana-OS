@@ -1,8 +1,8 @@
 'use client';
 
 import * as TabsRadix from '@radix-ui/react-tabs';
-import { KanbanBoard } from '@/components/pipeline/kanban/KanbanBoard';
-import { PipelineDashboard } from '@/components/pipeline/dashboard/PipelineDashboard';
+// import { KanbanBoard } from '@/components/pipeline/kanban/KanbanBoard';
+// import { PipelineDashboard } from '@/components/pipeline/dashboard/PipelineDashboard';
 
 export default function PipelinePage() {
   return (
@@ -35,7 +35,10 @@ export default function PipelinePage() {
         </TabsRadix.List>
 
         <TabsRadix.Content value="kanban" className="mt-6">
-          <KanbanBoard />
+          <div className="border border-border rounded-md p-12 text-center">
+            <p className="font-editorial text-2xl mb-3">Kanban</p>
+            <p className="text-sm text-muted-foreground">En construcción</p>
+          </div>
         </TabsRadix.Content>
 
         <TabsRadix.Content value="table" className="mt-6">
@@ -46,7 +49,10 @@ export default function PipelinePage() {
         </TabsRadix.Content>
 
         <TabsRadix.Content value="analytics" className="mt-6">
-          <PipelineDashboard />
+          <div className="border border-border rounded-md p-12 text-center">
+            <p className="font-editorial text-2xl mb-3">Analytics</p>
+            <p className="text-sm text-muted-foreground">En construcción</p>
+          </div>
         </TabsRadix.Content>
       </TabsRadix.Root>
     </div>
