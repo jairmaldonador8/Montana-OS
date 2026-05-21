@@ -1,6 +1,6 @@
 'use client';
 
-import { MontanaCard } from '@/components/cards/MontanaCard';
+// import { MontanaCard } from '@/components/cards/MontanaCard';
 import { User, Mail, Phone } from 'lucide-react';
 
 export default function LeadsPage() {
@@ -37,45 +37,8 @@ export default function LeadsPage() {
         <p className="text-gray-600 mt-2">Gestiona tu embudo de ventas</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {columns.map((column) => (
-          <div key={column.id}>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-gray-900">{column.label}</h2>
-              <span className="bg-gray-200 text-gray-700 text-xs font-bold px-2 py-1 rounded-full">
-                {column.count}
-              </span>
-            </div>
-
-            <div className="space-y-3">
-              {leads[column.id as keyof typeof leads].map((lead) => (
-                <MontanaCard key={lead.id}>
-                  <MontanaCard.Content>
-                    <div className="space-y-2">
-                      <div className="flex items-start gap-2">
-                        <User size={16} className="text-amber-500 mt-1" />
-                        <div>
-                          <p className="font-semibold text-gray-900">{lead.name}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <Mail size={14} />
-                        <span>{lead.email}</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <Phone size={14} />
-                        <span>{lead.phone}</span>
-                      </div>
-                      <div className="pt-2 border-t border-gray-100">
-                        <p className="text-xs font-semibold text-amber-600">{lead.budget}</p>
-                      </div>
-                    </div>
-                  </MontanaCard.Content>
-                </MontanaCard>
-              ))}
-            </div>
-          </div>
-        ))}
+      <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+        <p className="text-gray-600">Sección de leads - En construcción</p>
       </div>
     </div>
   );

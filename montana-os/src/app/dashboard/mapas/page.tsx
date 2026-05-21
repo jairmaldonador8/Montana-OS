@@ -1,6 +1,6 @@
 'use client';
 
-import { MontanaCard } from '@/components/cards/MontanaCard';
+// import { MontanaCard } from '@/components/cards/MontanaCard';
 import { MapPin, DollarSign, Home } from 'lucide-react';
 
 export default function MapasPage() {
@@ -48,49 +48,8 @@ export default function MapasPage() {
         <p className="text-gray-600 mt-2">Visualiza todas tus propiedades en el mapa</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Map */}
-        <div className="lg:col-span-2">
-          <MontanaCard>
-            <div className="aspect-video">
-              <iframe
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                loading="lazy"
-                allowFullScreen
-                src={mapUrl}
-              />
-            </div>
-          </MontanaCard>
-        </div>
-
-        {/* Properties List */}
-        <div className="space-y-4">
-          <h3 className="font-bold text-gray-900 text-lg">Propiedades en Mapa</h3>
-          {properties.map((prop) => (
-            <MontanaCard key={prop.id}>
-              <MontanaCard.Content>
-                <div className="space-y-2">
-                  <div className="flex items-start gap-2">
-                    <Home size={16} className="text-amber-500 mt-1" />
-                    <div>
-                      <p className="font-semibold text-gray-900 text-sm">{prop.name}</p>
-                      <div className="flex items-center gap-1 text-xs text-gray-600 mt-1">
-                        <MapPin size={12} />
-                        <span>{prop.location}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1 font-bold text-amber-600 text-sm">
-                    <DollarSign size={14} />
-                    <span>{prop.price}</span>
-                  </div>
-                </div>
-              </MontanaCard.Content>
-            </MontanaCard>
-          ))}
-        </div>
+      <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+        <p className="text-gray-600">Sección de mapas - En construcción</p>
       </div>
     </div>
   );

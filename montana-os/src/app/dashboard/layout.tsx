@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Navbar } from '@/components/shared/Navbar';
+// import { Navbar } from '@/components/shared/Navbar';
 import { Home, Users, TrendingUp, DollarSign, Calendar, Map, MessageSquare, BarChart3 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
@@ -25,7 +25,7 @@ export default function DashboardLayout({
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="flex h-[calc(100vh-64px)]">
         {/* Sidebar */}
