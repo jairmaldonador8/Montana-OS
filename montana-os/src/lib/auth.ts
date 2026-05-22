@@ -1,7 +1,10 @@
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
 
-const supabase = createClientComponentClient<Database>();
+const supabase = createClient<Database>(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+);
 
 export async function getCurrentUser() {
   const { data: { user } } = await supabase.auth.getUser();
@@ -23,7 +26,7 @@ export async function getUserRole(userId: string): Promise<'admin' | 'asesor' | 
     .from('users')
     .select('role')
     .eq('id', userId)
-    .single();
+    .single() as any;
 
-  return (data?.role as 'admin' | 'asesor' | 'coordinador') || null;
+  return (data?.role as 'admin' | 'asesor' | 'coordinador' | null) || null;
 }

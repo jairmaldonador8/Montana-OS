@@ -22,7 +22,7 @@ async function setupDatabase() {
     }
 
     const userId = authUsers.users[0].id;
-    const userEmail = authUsers.users[0].email;
+    const userEmail = authUsers.users[0].email || 'admin@montana.os';
     console.log(`✅ Using user: ${userEmail}\n`);
 
     // Create propiedades table
